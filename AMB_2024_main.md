@@ -16,17 +16,17 @@ Welcome to Advanced Microbiome Analysis 2024.
 
 The course **schedule** can be found [here](https://bioinformaticsdotca.github.io/AMB_2024_schedule)
 
-<!-- Meet your **faculty** [here]() -->
+Meet your **faculty** [here](https://drive.google.com/file/d/1JZOkzeXLfJtE3R5qJSg4O8m6kVpzdamZ/view?usp=sharing)
 
 # Pre-Workshop Materials <a id="preworkshop"></a>
 
-<!-- **Pre-work** including programs to install, tutorials, and readings can be found [here]() -->
+**Pre-work** including programs to install, tutorials, and readings can be found [here](https://forms.gle/xymhx8dD65BE2noU8).
 
 ***
 
 # AWS Module <a id="preworkshop"></a>
 
-<!-- Connecting and properly using a cloud computing cluster at the CBW [here]()   -->
+Connecting and properly using a cloud computing cluster at the CBW [here](/BMB_2024_AWSUNIX).  
 
 ***
 
