@@ -73,6 +73,12 @@ cp -r ~/CourseData/MIC_data/AMB_data/raw_data/ .
 
 # A Crash Course in GNU Parallel
 
+First, activate our conda environment for this tutorial:
+
+```
+conda activate taxonomic
+```
+
 Sometimes in bioinformatics, the number of tasks you have to complete can get VERY large. Fortunately, there are several tools that can help us with this. One such tool is [GNU Parallel](https://www.gnu.org/software/parallel/parallel_tutorial.html). This tool can simplify the way in which we approach large tasks, and as the name suggests, it can iterate though many tasks in _parallel_, i.e. concurrently. We can use a simple command to demonstrate this.
 
 ```
@@ -160,7 +166,7 @@ Kneaddata outputs many files for each sample we provide it. These include:
 * singletons that **do not** match our database;
 * and some others.
 
-First, we want to activate our `conda` environment where KneadData and our other tools for this tutorial are installed:
+**If you have not already**, we want to activate our `conda` environment where KneadData and our other tools for this tutorial are installed:
 
 ```
 conda activate taxonomic
