@@ -49,7 +49,8 @@ Coming soon!
 *<font color="#827e9c">Robyn Wright</font>*  
 
 [Module 2 Lecture Slides](https://drive.google.com/file/d/1YpNeCh1L7w0-Kcdh6O1K9O6wA8_B3-Vv/view?usp=sharing)  
-<!-- [Module 2 Lab]()   -->
+[Module 2 Lab](/AMB_2024_module2)  
+[Module 2 Lab Markdown](https://drive.google.com/file/d/1O57dU0zM5w5iTOrhcMF5XZtjNC-M9UKQ/view?usp=sharing)
 
 <!-- # Day 2 <a id="day2"></a> -->
 
