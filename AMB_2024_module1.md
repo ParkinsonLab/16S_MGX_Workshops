@@ -346,8 +346,7 @@ library(ggplot2)
 library(taxonomizr)
 
 #setwd("~/workspace/")
-#data<-import_biom("~/CourseData/MIC_data/AMB_data/amb_module1/mgs.biom", header = TRUE)
-data<-import_biom("ben/mgs_correction.biom", header = TRUE)
+data<-import_biom("~/CourseData/MIC_data/AMB_data/amb_module1/mgs.biom", header = TRUE)
 
 ```
 We can see what the phyloseq object looks like by using:
