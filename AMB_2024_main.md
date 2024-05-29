@@ -10,8 +10,6 @@ length: 2 days
 
 # Welcome <a id="welcome"></a>
 
-**This page is still being built. Please note that some links may be broken or out of date.**  
-
 Welcome to Advanced Microbiome Analysis 2024.  
 
 The course **schedule** can be found [here](https://bioinformaticsdotca.github.io/AMB_2024_schedule)
@@ -44,13 +42,13 @@ Coming soon!
 
 [Module 1 Lecture Slides](https://drive.google.com/file/d/1jdx8_ni10RQZepJNOmIVrSOvdx5DyseC/view?usp=sharing)  
 [Module 1 Lab](/AMB_2024_module1)  
+[Module 1 Lab Markdown](https://drive.google.com/file/d/1dAbP9Dr0p8SAjFalngxg2NhkXqdbJcAD/view?usp=sharing)
 
-<!-- ##  Module 2 -->
+##  Module 2
 
-<!-- *<font color="#827e9c">Martin Hirst</font>*   -->
+*<font color="#827e9c">Robyn Wright</font>*  
 
-<!-- [Module 2 Lecture Slides]()   -->
-<!-- [Module 2 Lecture Recording]()   -->
+[Module 2 Lecture Slides](https://drive.google.com/file/d/1YpNeCh1L7w0-Kcdh6O1K9O6wA8_B3-Vv/view?usp=sharing)  
 <!-- [Module 2 Lab]()   -->
 
 <!-- # Day 2 <a id="day2"></a> -->
