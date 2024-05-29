@@ -137,8 +137,8 @@ More often, per base sequence quality will look like the following. The FastQC d
 
 ![image](https://github.com/LangilleLab/microbiome_helper/assets/106988687/1ceec41e-f7ae-4763-889d-a24e95384d57)
 
-**Question 1: **Which of the graphs does your data resemble more closely?
-**Question 2: **What can we do if data fails the Per Base Sequence Quality module?
+**Question 1:** Which of the graphs does your data resemble more closely?\
+**Question 2:** What can we do if data fails the Per Base Sequence Quality module?
 
 Now, you may have also noticed that most of the samples fail the "Per Base Sequence Content" module of FastQC. Let's look at our visualization:
 
