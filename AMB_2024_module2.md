@@ -1,3 +1,13 @@
+---
+layout: workshop_main_2day
+permalink: /AMB_2024_module2
+title: AMB 2024
+header1: Workshop Pages for Students
+header2: Advanced Microbiome Analysis 2024
+image: /site_images/AMB_2024_v1.png
+length: 2 days
+---
+
 # Module 2: Metagenomic Assembly and Binning
 
 This tutorial is part of the 2024 Canadian Bioinformatics Workshops [Advanced Microbiome Analysis](https://github.com/LangilleLab/microbiome_helper/wiki/CBW-workshop-2024-advanced) (St John's, NL, May 29-30).
