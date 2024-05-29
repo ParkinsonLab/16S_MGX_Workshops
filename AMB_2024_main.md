@@ -36,46 +36,40 @@ Coming soon!
 
 # Day 1 <a id="day1"></a>
 
-##  Module 1
+##  Module 1: Introduction to MGS and Read-Based Profiling
 
 *<font color="#827e9c">Morgan Langille</font>*  
 
+[Module 1 Lecture Recording](https://youtu.be/G9bwmZ0IPAE?si=NS1w-YjW96Kmm0-6)  
 [Module 1 Lecture Slides](https://drive.google.com/file/d/1jdx8_ni10RQZepJNOmIVrSOvdx5DyseC/view?usp=sharing)  
 [Module 1 Lab](/AMB_2024_module1)  
 [Module 1 Lab Markdown](https://drive.google.com/file/d/1dAbP9Dr0p8SAjFalngxg2NhkXqdbJcAD/view?usp=sharing)
 
-##  Module 2
+##  Module 2: MAG Assembly and Binning
 
 *<font color="#827e9c">Robyn Wright</font>*  
 
+[Module 2 Lecture Recording](https://youtu.be/g_ZpIyp9hAI?si=j_uaR-DqQMS2pE4L)  
 [Module 2 Lecture Slides](https://drive.google.com/file/d/1YpNeCh1L7w0-Kcdh6O1K9O6wA8_B3-Vv/view?usp=sharing)  
 [Module 2 Lab](/AMB_2024_module2)  
 [Module 2 Lab Markdown](https://drive.google.com/file/d/1O57dU0zM5w5iTOrhcMF5XZtjNC-M9UKQ/view?usp=sharing)
 
-<!-- # Day 2 <a id="day2"></a> -->
+# Day 2 <a id="day2"></a>
 
-<!-- ##  Module 3 -->
+##  Module 3: Metagenomic Functional Annotation
 
-<!-- *<font color="#827e9c">Edmund Su</font>*   -->
+*<font color="#827e9c">Morgan Langille</font>*  
 
-<!-- [Module 3 Lecture Slides]()   -->
-<!-- [Module 3 Lecture Recording]()   -->
+<!-- [Module 3 Lecture Recording]()     -->
+[Module 3 Lecture Slides](https://drive.google.com/file/d/1Omvxp4bSEfVcqK_5VHGX2nYwU8067d_R/view?usp=sharing)  
 <!-- [Module 3 Lab]()   -->
+<!-- [Module 3 Lab Markdown]()   -->
 
-<!-- ##  Module 4 -->
+##  Module 4: Advanced Microbiome Statistics
 
-<!-- *<font color="#827e9c">Guillaume Bourque</font>*   -->
+*<font color="#827e9c">Monica Alvaro Fuss and Morgan Langille</font>*  
 
-<!-- [Module 4 Lecture Slides]()   -->
 <!-- [Module 4 Lecture Recording]()   -->
-<!-- [Module 4 Lab]()   --> 
-
-<!-- # Day 3 <a id="day2"></a> -->
-
-<!-- ##  Module 5 -->
-
-<!-- *<font color="#827e9c">David Bujold</font>*   -->
-
-<!-- [Module 5 Lecture Slides]()   -->
-<!-- [Module 5 Lecture Recording]()   -->
-<!-- [Module 5 Lab]()   -->
+[Module 4 Lecture Slides](https://drive.google.com/file/d/12KldaimsQyMwOzFy2e3SegxpPs6iLq6_/view?usp=sharing)  
+<!-- [Module 4 Lab]()   -->
+<!-- [Module 4 Lab Markdown]()   --> 
