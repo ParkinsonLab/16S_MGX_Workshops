@@ -1,3 +1,13 @@
+---
+layout: workshop_main_2day
+permalink: /AMB_2024_module1
+title: AMB 2024
+header1: Workshop Pages for Students
+header2: Advanced Microbiome Analysis 2024
+image: /site_images/AMB_2024_v1.png
+length: 2 days
+---
+
 # Module 1: Introduction to metagenomics and read‐based profiling
 
 This tutorial is part of the 2024 Canadian Bioinformatics Workshops [Advanced Microbiome Analysis](https://github.com/LangilleLab/microbiome_helper/wiki/CBW-workshop-2024-advanced) (St John's, NL, May 29-30).
@@ -22,19 +32,34 @@ Throughout this module, there are some questions aimed to help your understandin
   * [Preparing our Files for Analysis](#preparing-our-files-for-analysis)
 ## Part 2:
 [Working in RStudio](#working-in-rstudio)
-* [Setup, Importing and Formatting Data](#setup-importing-and-formatting-data)
-* [Remove Rare Taxa and Rarefy](#remove-rare-taxa-and-rarefy)
-  * [Pruning](#pruning)
-  * [Rarefy](#rarefy)
-* [Alpha Diversity](#alpha-diversity)
-* [Beta Diversity](#beta-diversity)
-* [Visualization with Stacked Bar Charts](#visualization-with-stacked-bar-charts)
-  * [Formatting the Data](#formatting-the-data)  
-  * [Selecting our Colours](#selecting-our-colours)  
-  * [Creating the Plot](#creating-the-plot)
-* [Visualization with Heatmaps](#visualization-with-heatmaps)
-  * [Formatting the Data](#formatting-the-data-1)
-  * [Annotate and Generate the Heatmap](#annotate-and-generate-the-heatmap)
+- [Module 1: Introduction to metagenomics and read‐based profiling](#module-1-introduction-to-metagenomics-and-readbased-profiling)
+  - [Part 1:](#part-1)
+  - [Part 2:](#part-2)
+- [Working on the Command Line](#working-on-the-command-line)
+- [A Crash Course in GNU Parallel](#a-crash-course-in-gnu-parallel)
+- [Quality Control](#quality-control)
+  - [Visualization with FastQC](#visualization-with-fastqc)
+  - [Filtering with KneadData](#filtering-with-kneaddata)
+- [Generating Taxonomic Profiles](#generating-taxonomic-profiles)
+  - [Annotation with Kraken2/Bracken](#annotation-with-kraken2bracken)
+  - [Annotation with MetaPhlAn](#annotation-with-metaphlan)
+  - [Preparing our files for Analysis](#preparing-our-files-for-analysis)
+- [Working in RStudio](#working-in-rstudio)
+- [Setup, Importing and Formatting Data](#setup-importing-and-formatting-data)
+- [Remove Rare Taxa and Rarefy](#remove-rare-taxa-and-rarefy)
+  - [Pruning](#pruning)
+  - [Rarefy](#rarefy)
+- [Alpha Diversity](#alpha-diversity)
+- [Beta Diversity](#beta-diversity)
+  - [Preparing the Data](#preparing-the-data)
+  - [Plot the Data](#plot-the-data)
+- [Visualization with Stacked Bar Charts](#visualization-with-stacked-bar-charts)
+  - [Formatting the Data](#formatting-the-data)
+  - [Selecting our Colours](#selecting-our-colours)
+  - [Creating the Plot](#creating-the-plot)
+- [Visualization with Heatmaps](#visualization-with-heatmaps)
+  - [Formatting the data](#formatting-the-data-1)
+  - [Annotate and Generate the Heatmap](#annotate-and-generate-the-heatmap)
 
 # Working on the Command Line
 

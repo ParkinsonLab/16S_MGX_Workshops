@@ -38,13 +38,12 @@ Coming soon!
 
 # Day 1 <a id="day1"></a>
 
-<!-- ##  Module 1 -->
+##  Module 1
 
-<!-- *<font color="#827e9c">Martin Hirst</font>*   -->
+*<font color="#827e9c">Morgan Langille</font>*  
 
-<!-- [Module 1 Lecture Slides]()   -->
-<!-- [Module 1 Lecture Recording]()   -->
-<!-- [Module 1 Lab]()   -->
+[Module 1 Lecture Slides](https://drive.google.com/file/d/1jdx8_ni10RQZepJNOmIVrSOvdx5DyseC/view?usp=sharing)  
+[Module 1 Lab](/AMB_2024_module1)  
 
 <!-- ##  Module 2 -->
 
