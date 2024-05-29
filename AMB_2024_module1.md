@@ -135,14 +135,14 @@ Go to `http://##.uhn-hpc.ca/` (substituting ## for your student number) and navi
 
 More often, per base sequence quality will look like the following. The FastQC documentation provides examples of "[good](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/good_sequence_short_fastqc.html#M1)" and "[bad](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/bad_sequence_fastqc.html)" data. These examples are also shown below:
 
-![image](https://github.com/LangilleLab/microbiome_helper/assets/106988687/1ceec41e-f7ae-4763-889d-a24e95384d57)
+<img src="https://github.com/LangilleLab/microbiome_helper/assets/106988687/1ceec41e-f7ae-4763-889d-a24e95384d57" width="800">
 
 **Question 1:** Which of the graphs does your data resemble more closely?\
 **Question 2:** What can we do if data fails the Per Base Sequence Quality module?
 
 Now, you may have also noticed that most of the samples fail the "Per Base Sequence Content" module of FastQC. Let's look at our visualization:
 
-![image](https://github.com/LangilleLab/microbiome_helper/assets/106988687/10887a71-fe6d-495a-9313-f4e11101d6ce)
+<img src="https://github.com/LangilleLab/microbiome_helper/assets/106988687/10887a71-fe6d-495a-9313-f4e11101d6ce" width="800">
 
 This specific module plots out the proportion of each base position in a file, and raises a warning/error if there are large discrepancies in base proportions. In a given sequence, the lines for each base should run in parallel, indicating that the base calling represents proper nucleotide pairing. Additionally, the A and T lines may appear separate from the G and C lines, which is a consequence of the GC content of the sample. The relative amount of each base reflects the overall amount of the bases in the genome, and should not be imbalanced. When this is not the case, the sequence composition is **biased**. A common cause of this is the use of primers, which throws off our sequence content at the beginning of the read. Fortunately, although the module error stems from this bias, according to the [FastQC documentation for this module](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/3%20Analysis%20Modules/4%20Per%20Base%20Sequence%20Content.html#:~:text=Whilst%20this%20is%20a%20true%20technical%20bias%2C%20it%20isn%27t%20something%20which%20can%20be%20corrected%20by%20trimming%20and%20in%20most%20cases%20doesn%27t%20seem%20to%20adversely%20affect%20the%20downstream%20analysis.) it will not largely impact our downstream analysis.
 
@@ -319,6 +319,21 @@ Now, with all of that, we should have our final `mgs.biom` file ready to go! You
 
 # Working in RStudio
 
+### Create the R Notebook
+Using the menus, click `File > New File > R Notebook`, which will open an Untitled R markdown (Rmd) document. R notebooks are helpful in that you can run several lines, or **_chunks_** of code at the same time, and the results will appear within the document itself _(in the whitespace following the chunk)_.
+
+The default R Notebook contains a header and some information you may find helpful. Try running the chunk containing `plot(cars)` to see what happens!
+
+You do not need to preserve most of the information in the new, untitled document. Select all of its contents by click+dragging your cursor or entering the **`ctrl+a`** shortcut, and press **`backspace`** or **`delete`** to clear the document.
+
+The **chunks** are distinguished by the grey shading. Everything between the first ` ```{r} ` and subsequent` ``` ` belongs to the chunk. Anything written in the white space surrounding the chunk is meant to be annotation. _Although you can run lines of code outside of the chunks, the chunks are useful for running multiple lines in series with one click._
+
+#### Adding new chunks
+To add a new chunk into your R notebook, either:
+1. Navigate to `Code > Insert Chunk` from the toolbar, or,
+2. Use the shortcut **`ctrl+alt+I`**
+
+
 # Setup, Importing and Formatting Data
 
 It would be best to create a new R markdown document for this section. You can then paste the following lines of code into the first chunk and clink "Run". If you are not using a markdown document, omit the first line.
@@ -425,7 +440,9 @@ With that, we can re-visit our histogram and see what this pruning has done:
 #View the histogram of taxa sums after we remove the rare taxa.
 hist(taxa_sums(bacteria), breaks = 2000, xlim = c(0,1000), main = "Taxa Sums after Pruning")
 ```
-![image](https://github.com/LangilleLab/microbiome_helper/assets/106988687/76c9e1bd-2e97-47e6-8352-5abc2bd0a709)
+
+<img src="https://github.com/LangilleLab/microbiome_helper/assets/106988687/76c9e1bd-2e97-47e6-8352-5abc2bd0a709" width="800">
+
 From the scale of the y-axes, we can see that this has pruned many of the rare taxa. This can be verified by viewing the `otu_table` with `View(bacteria@otu_table)`.
 
 
@@ -445,7 +462,7 @@ Some notes about this command:
 
 Your rarefaction curve should look similar to the following:
 
-![image](https://github.com/LangilleLab/microbiome_helper/assets/106988687/f900f6f3-1d0a-44e2-8673-1920d728541c)
+<img src="https://github.com/LangilleLab/microbiome_helper/assets/106988687/f900f6f3-1d0a-44e2-8673-1920d728541c" width="800">
 
 Looking at the rarefaction curve, we can see that the number of species for all of the samples eventually begins to plateau, which is a good sign! This tells us that we have reached a sequencing depth where more reads does not improve the number of taxa we find in our sample. However, with the labels, it can be difficult to see exactly what these sample sizes are, so the following code will print it out for us:
 
@@ -495,7 +512,7 @@ plot_richness(physeq = rarefied, x="diagnosis", color = "diagnosis", measures = 
 
 Your plots will look something like the following:
 
-![image](https://github.com/LangilleLab/microbiome_helper/assets/106988687/2c9dd861-585f-4926-a80c-0e1bd0cac0cb)
+<img src="https://github.com/LangilleLab/microbiome_helper/assets/106988687/2c9dd861-585f-4926-a80c-0e1bd0cac0cb" width="800">
 
 We can see that the groups are not identical, and that the different indices yield different plots. As well, some indices are similar to each other (like observed taxa and Fisher's alpha). Since we see differences in both the Shannon and Simpson plots, we can say that there are differences in both richness and evenness between our CD and non-IDB sample groups.
 
@@ -552,7 +569,7 @@ plot_ordination(physeq = percentages, ordination = ordination, color="diagnosis"
 
 Your plot should look something like the following:
 
-![image](https://github.com/LangilleLab/microbiome_helper/assets/106988687/200623fd-fc27-4999-a64d-c94ea351ce2c)
+<img src="https://github.com/LangilleLab/microbiome_helper/assets/106988687/200623fd-fc27-4999-a64d-c94ea351ce2c" width="800">
 
 Now, try substituting the `color` parameter with some different categories from our metadata. Recall how to view the metadata. What does this do to the plot?
 
@@ -625,7 +642,7 @@ relative_plot
 
 Your plot will look similar to the following:
 
-![image](https://github.com/LangilleLab/microbiome_helper/assets/106988687/0a633076-b8d9-4052-a319-d10977eec2e9)
+<img src="https://github.com/LangilleLab/microbiome_helper/assets/106988687/0a633076-b8d9-4052-a319-d10977eec2e9" width="800">
 
 
 Try agglomerating to different taxonomic levels. Doing so, you will have to change _a few_ lines of code and run them before building and viewing the `relative_plot`.
@@ -738,7 +755,7 @@ Heatmap(hm, cluster_columns = col_dend,
 
 And your resulting heatmap should look something like the following:
 
-![image](https://github.com/LangilleLab/microbiome_helper/assets/106988687/e0bbfd25-7cf3-4438-864f-1e611b830bc5)
+<img src="https://github.com/LangilleLab/microbiome_helper/assets/106988687/e0bbfd25-7cf3-4438-864f-1e611b830bc5" width="800">
 
 Try changing your heatmap annotation to be another metadata variable. Does this cluster better or worse than `diagnosis`?
 Try changing the command at near the beginning of this module to create a different heatmap. Maybe look at the least abundant taxa? Or the top 30?
