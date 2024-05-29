@@ -262,10 +262,10 @@ This process can take some time. While this runs, let's learn about what our com
 
 With Kraken2, we have annotated the reads in our sample with taxonomy information. If we want to use this to investigate diversity metrics, we need to find the abundances of taxa in our samples. This is done with Kraken2's companion tool, Bracken (Bayesian Reestimation of Abundance with KrakEN). 
 
-Let's run Bracken on our Kraken2 outputs!
+Let's run Bracken on our Kraken2 outputs! First, make an output directory, then run the following:
 
 ```
-parallel -j 2 --eta 'bracken -d ~/CourseData/MIC_data/tools/kraken2_standard_08gb -i {} -o bracken_out{/.}.species.bracken -r 100 -l S -t 1' ::: kraken2_kreport/*.kreport
+parallel -j 2 --eta 'bracken -d ~/CourseData/MIC_data/tools/kraken2_standard_08gb -i {} -o bracken_out/{/.}.species.bracken -r 100 -l S -t 1' ::: kraken2_kreport/*.kreport
 ```
 Some notes about this command:
 * `-d` specifies the database we want to use. It should be the same database we used when we ran Kraken2;
