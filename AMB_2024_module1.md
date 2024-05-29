@@ -265,7 +265,7 @@ With Kraken2, we have annotated the reads in our sample with taxonomy informatio
 Let's run Bracken on our Kraken2 outputs! First, make an output directory, then run the following:
 
 ```
-parallel -j 2 --eta 'bracken -d ~/CourseData/MIC_data/tools/kraken2_standard_08gb -i {} -o bracken_out/{/.}.species.bracken -r 100 -l S -t 1' ::: kraken2_kreport/*.kreport
+parallel -j 2 --eta 'bracken -d ~/CourseData/MIC_data/tools/k2_standard_08gb -i {} -o bracken_out/{/.}.species.bracken -r 100 -l S -t 1' ::: kraken2_kreport/*.kreport
 ```
 Some notes about this command:
 * `-d` specifies the database we want to use. It should be the same database we used when we ran Kraken2;
