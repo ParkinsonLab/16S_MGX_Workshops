@@ -524,7 +524,9 @@ We want to use the following chunk to import and format our dataframe for our mo
 
 ```{r}
 #import the data for random forest 
-data <- read.delim("~/CourseData/MIC_data/AMB_data/amb_module4/rf_data.tsv", header=TRUE)
+data <- read.delim("~/CourseData/MIC_data/AMB_data/amb_module4/rf_data.tsv", header=TRUE, row.names = 1)
+
+#data$dysbiosis_score<-round(data$dysbiosis_score, digits = 2)
 
 #subset the data to the metadata variable we are interested in
 data<-data[,c(1,4:ncol(data))]
@@ -546,6 +548,7 @@ Now, we will use our training data to construct the model. Similar to before, we
 
 ```
 rf <- randomForest(train[,2:ncol(train)], train$dysbiosis_score, ntree = 501, proximity=TRUE, importance = TRUE)
+rf
 ```
 
 
