@@ -72,4 +72,4 @@ Coming soon!
 <!-- [Module 4 Lecture Recording]()   -->
 [Module 4 Lecture Slides](https://drive.google.com/file/d/12KldaimsQyMwOzFy2e3SegxpPs6iLq6_/view?usp=sharing)  
 [Module 4 Lab](/AMB_2024_module4)  
-<!-- [Module 4 Lab Markdown]()   --> 
+[Module 4 Lab Markdown](https://drive.google.com/file/d/1OYsVDoy2ionVtz0SvtALZWQQzCl9PA_T/view?usp=sharing)   
