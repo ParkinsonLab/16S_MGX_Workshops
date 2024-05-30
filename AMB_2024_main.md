@@ -62,8 +62,8 @@ Coming soon!
 
 <!-- [Module 3 Lecture Recording]()     -->
 [Module 3 Lecture Slides](https://drive.google.com/file/d/1Omvxp4bSEfVcqK_5VHGX2nYwU8067d_R/view?usp=sharing)  
-<!-- [Module 3 Lab]()   -->
-<!-- [Module 3 Lab Markdown]()   -->
+[Module 3 Lab](/AMB_2024_module3)  
+[Module 3 Lab Markdown](https://drive.google.com/file/d/1z6THLA0MfM5rB9POvRc-OS3uiq8eKa04/view?usp=sharing)  
 
 ##  Module 4: Advanced Microbiome Statistics
 
