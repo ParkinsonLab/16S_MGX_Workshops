@@ -446,7 +446,7 @@ p1 <- predict(rf, train)
 p2 <- predict(rf, test)
 ```
 
-If you were to view the objects resulting from the above commands, you are given a list (in factor form) of each of the samples and their boolean value (0 or 1) corresponding to TRUE or FALSE for being classified as `high_dysbiosis`. We can use the following commands to generate a confusion matrix for our training and testing datasets, which indicate how well the model performed on our data.
+If you were to view the objects resulting from the above commands, you are given a list (in factor form) of each of the samples and their boolean value (0 or 1) corresponding to FALSE or TRUE for being classified as `high_dysbiosis`. We can use the following commands to generate a confusion matrix for our training and testing datasets, which indicate how well the model performed on our data.
 
 ```
 #what is the model accuracy?
