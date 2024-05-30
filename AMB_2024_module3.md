@@ -147,7 +147,7 @@ We you will see is a file in BLAST tabular format:
 Use ```grep``` to look at the matches for sequence ```CB1APANXX170426:1:1101:10000:16732/1``` in ```mmseqs-CSM7KOMH-s1.m8```.\
 **Question 1**: How many matches are there?\
 **Question 2**: What is the highest percent identity match?\
-**Question 3**: What is the lowest E-value match (smallest value = best match)?\
+**Question 3**: What is the lowest E-value match (smallest value = best match)?
 
 ## 3.3 Get MMSeqs top hits
 
@@ -295,7 +295,7 @@ for line in open('taxonomy/nodes.dmp', 'r'):
   nodes_level_dict[node] = level
 ```
 Here, we were saying that for each line of the ```nodes.dmp``` file:
-- remove the tabs and split the remaining string by the '|' symbol
+- remove the tabs and split the remaining string by the ```|``` symbol
 - define the node, parent and level of this as the first, second and third field (note that python indexing starts at 0, not 1 like R and some other programming languages)
 - add the parent taxid to the name of this taxid in the nodes_dict
 - add which taxonomy rank/level this is at to the nodes_level_dict
@@ -309,7 +309,7 @@ for line in open('taxonomy/names.dmp', 'r'):
     names_dict[taxid] = name
 ```
 So again we're saying that for each line of the ```names.dmp``` file:
-- remove the tabs and split the remaining string by the '|' symbol
+- remove the tabs and split the remaining string by the ```|``` symbol
 - define the taxid, name and type of name as the first, second and fourth fields
 - if the name type is the scientific name (the two == signs means that we're asking it if it matches, rather than defining the name_type as 'scientific name'). Other options here would include synonym, common name, equivalent name, type material... but we only want the scientific name for each taxonomy ID
 - if it is the scientific name, then we'll save the name to the taxid in the names_dict
