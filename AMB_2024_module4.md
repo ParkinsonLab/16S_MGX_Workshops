@@ -288,17 +288,29 @@ To take a first look at our covariates, we can see how dysbiosis score might dif
 box<-ggplot(covariates, aes(x=sex, y=dysbiosis_score, color=diagnosis)) + geom_boxplot() + facet_grid(diagnosis ~ .)
 ```
 
+And view the resulting plot with:
+
+```
+box
+```
+
 Another intuitive way to look at our data is with a scatter plot. We will add regression lines to our plots to see if they are collinear or not. If we do not see multicollinearity, it may indicate that there is an effect of our covariates on our `dysbiosis_score` measurement.
 
 ```
 scatter<-ggplot(covariates, aes(x=BMI, y=dysbiosis_score, color=diagnosis)) + geom_point() + geom_smooth(method = "lm", se = FALSE, fullrange = TRUE)  + facet_grid(sex ~ .)
+```
+And view the resulting plot with:
+
+```
+scatter
 ```
 
 The following is not necessary, but is a demonstration of the `facet_rid()` geom. We can additionally separate our boxplots by an additional factor, `high_dysbiosis_score`. This would not be a practical covariate as it is a categorical interpretation of our measured variable, `dysbiosis_score`, but it is interesting to see as a summary.
 
 
 ```
-scatter<-ggplot(covariates, aes(x=BMI, y=dysbiosis_score, color=diagnosis)) + geom_point() + geom_smooth(method = "lm", se = FALSE, fullrange = TRUE)  + facet_grid(sex ~ high_dysbiosis_score)
+scatter2<-ggplot(covariates, aes(x=BMI, y=dysbiosis_score, color=diagnosis)) + geom_point() + geom_smooth(method = "lm", se = FALSE, fullrange = TRUE)  + facet_grid(sex ~ high_dysbiosis_score)
+scatter2
 ```
 
 To assess the effect of our treatment groups and covariates on our response variable, we will do an analysis of variance, or ANOVA. First, for demonstration, we will do a two-way ANOVA for our data with the following. Our groups will be `sex` and `diagnosis`, and our response variable is `dysbiosis_score`.
@@ -316,10 +328,10 @@ We will begin by conducting a one-way ANCOVA, to see how `BMI` contributes to th
 
 ```
 ancova <- lm(dysbiosis_score ~ BMI + sex, data = covariates)
-1_anc_result <- Anova(ancova, type="II")
+Anova(ancova, type="II")
 ```
 
-Here, we've stored our results in a new object. Inspect it to see the results of our ANCOVA. We should see a significant contribution of `BMI` to our observed variance in `dysbiosis_score`. 
+Here, we've output the results of our ANCOVA. We should see a significant contribution of `BMI` to our observed variance in `dysbiosis_score`. 
 
 The ANCOVA actually conduct multiple tests to generate its test statistic. So, we must incorporate multiple test correction. We can do this by using pipes from the `dplyr` package to supply our data to `emmeans_test()` for Benjamini–Hochberg multiple test correction.
 
