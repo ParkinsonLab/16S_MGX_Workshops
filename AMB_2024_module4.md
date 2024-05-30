@@ -548,8 +548,6 @@ Now, we will use our training data to construct the model. Similar to before, we
 rf <- randomForest(train[,2:ncol(train)], train$dysbiosis_score, ntree = 501, proximity=TRUE, importance = TRUE)
 ```
 
-plot(rf)
-which.min(rf$mse)
 
 Since we are not using a categorical response variable, we cannot use a confusion matrix. Instead, we could look at the model's predictive abilities:
 ```
