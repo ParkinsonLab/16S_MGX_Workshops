@@ -3,7 +3,7 @@ layout: workshop_main_2day
 permalink: /AMB_2024_module3
 title: AMB 2024
 header1: Workshop Pages for Students
-header2: Advanced Microbiome Analysis 2024: Module 3
+header2: Advanced Microbiome Analysis 2024 Module 3
 image: /site_images/AMB_2024_v1.png
 length: 2 days
 ---
