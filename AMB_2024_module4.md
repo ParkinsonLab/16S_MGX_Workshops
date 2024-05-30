@@ -124,11 +124,11 @@ Now, we can view each of the test results separately by just executing the list 
 mwu_summary<-cbind(mwu_observed,mwu_chao1,mwu_shannon)
 ```
 
-**Question #:** What does the `cbind()` function do? Why would a similar function, `rbind()`, not work here?
+**Question 1:** What does the `cbind()` function do? Why would a similar function, `rbind()`, not work here?
 
 If you view the `mwu_summary` list, you will see that although it is not a perfect solution, we can see the p-values for each of the Mann-Whitney U tests that we ran for our chosen alpha diversity metrics. 
 
-**Question #** Think back to the boxplots. Are the results of our statistical tests expected?
+**Question 2** Think back to the boxplots. Are the results of our statistical tests expected?
 
 ## Alpha Diversity for Three or More Groups
 
@@ -156,7 +156,7 @@ alpha_div<-estimate_richness(data, measures = c("Observed","Chao1","Shannon"))
 alpha_div$group<-group
 ```
 
-**Question #:** Ignoring the fact that we are appending `diagnosis` or `group` to our `alpha_div` dataframes, would this step produce the same dataframe that we generated for our Mann-Whitney U test? Look at the code to find out.
+**Question 3:** Ignoring the fact that we are appending `diagnosis` or `group` to our `alpha_div` dataframes, would this step produce the same dataframe that we generated for our Mann-Whitney U test? Look at the code to find out.
 
 Now, we can conduct our Kruskal-Wallis tests. We will do this separately, and you can see the individual outputs as they are stored in our lists. We can also summarize the results quickly using the `cbind()` function, since our three output lists have the same columns.
 
@@ -191,9 +191,9 @@ dunn_summary<-rbind(d_observed, d_chao1, d_shannon)
 
 Finally, we can inspect the `dunn_summary` table. Take note that there are p-values and adjusted p-values; we are interested in the adjusted p-values, because these have been corrected with the Benjamini–Hochberg method.
 
-**Question #:** Which groups, if any, are significantly different from one another? Is this the same for more than one diversity metric?
+**Question 4:** Which groups, if any, are significantly different from one another? Is this the same for more than one diversity metric?
 
-**Question #:** Why do we not have to do a post-hoc test for the Mann-Whitney U test, but follow up our Kruskal-Wallis test with the Dunn test?
+**Question 5:** Why do we not have to do a post-hoc test for the Mann-Whitney U test, but follow up our Kruskal-Wallis test with the Dunn test?
 
 # Beta Diversity
 
@@ -236,7 +236,7 @@ adonis<-adonis2(bray_dist ~ sample_data(data)$diagnosis, permutations = 101)
 
 Now, you can view the results of our test by inspecting the `adonis` object with the `View()` function or the environment browser. Are there significant differences between the groups?
 
-**Question #:** If we were to find a significant difference, would we need to use a post-hoc test?
+**Question 6:** If we were to find a significant difference, would we need to use a post-hoc test?
 
 
 ## Beta Diversity with Three or More Samples
@@ -443,7 +443,7 @@ confusionMatrix(p1, train$high_dysbiosis)
 confusionMatrix(p2, test$high_dysbiosis)
 ```
 
-**Question #:** Does the model accuracy differ between the `train` and `test` data? What does the accuracy value for each mean?
+**Question 7:** Does the model accuracy differ between the `train` and `test` data? What does the accuracy value for each mean?
 
 
 A useful step in evaluating our model is seeing which features contribute the most to the classification. The object resulting from `randomForest` will contain `importance` data. If we view this, we can sort by the parameters to see the most and least important factors.
@@ -599,3 +599,27 @@ sig
 cv<-rf.crossValidation(rf, xdata = train[,2:ncol(train)], ntree = 501, n = 11, p=0.1)
 cv
 ```
+
+**Question 1:** What does the `cbind()` function do? Why would a similar function, `rbind()`, not work here?
+_Using `help("cbind)`, we can view the manual for this function. It combines given sequence of vector, matrix or data-frame arguments into one output. It matches by columns, and our MWU test outputs all have the same columns, so this creates a merged table. We could not use `rbind()` because the MWU outputs do not share rows._
+
+**Question 2** Think back to the boxplots. Are the results of our statistical tests expected?
+_If you used the `high_dysbiosis` factor, we might expect to see significant differences when considering the boxplot. The means had some separation._
+
+**Question 3:** Ignoring the fact that we are appending `diagnosis` or `group` to our `alpha_div` dataframes, would this step produce the same dataframe that we generated for our Mann-Whitney U test? Look at the code to find out.
+_Yes, the code we use to generate `alpha_div` is the same, and we use the same data to begin, so the same dataframe would be produced **before** we append the factors._
+
+**Question 4:** Which groups, if any, are significantly different from one another? Is this the same for more than one diversity metric?
+_Group 1 should be significantly different from Group 2, but not 3. This is consistent across the three diversity metrics we used. Groups 2 and 3 are not significantly different from each other. Sometimes, different methods will produce different results for the same group comparisons._
+
+**Question 5:** Why do we not have to do a post-hoc test for the Mann-Whitney U test, but follow up our Kruskal-Wallis test with the Dunn test?
+_The MWU test does not do multiple comparisons. We need to use a post hoc test with multiple test correction if we are comparing more than two groups. For the KW test, we do 3 pairwise comparisons to calculate the test statistic, and therefore need a post-hoc test to see which groups are significantly different from one another._
+
+**Question 6:** If we were to find a significant difference, would we need to use a post-hoc test?
+_No, because we are only doing one comparison between our groups._
+
+**Question 7:** Does the model accuracy differ between the `train` and `test` data? What does the accuracy value for each mean?
+_Yes. The model accuracy should be close to 1 (100%) for the training data because it is the same data that produced the classifer. For the test dataset, we expect it will be lower. The accuracy value is how well our model is able to accurately predict our response variable._
+
+
+
