@@ -1,3 +1,13 @@
+---
+layout: workshop_main_2day
+permalink: /AMB_2024_module4
+title: AMB 2024
+header1: Workshop Pages for Students
+header2: Advanced Microbiome Analysis 2024 Module 4
+image: /site_images/AMB_2024_v1.png
+length: 2 days
+---
+
 # Module 4: Advanced microbiome statistics
 
 This tutorial is part of the 2024 Canadian Bioinformatics Workshops [Advanced Microbiome Analysis](https://github.com/LangilleLab/microbiome_helper/wiki/CBW-workshop-2024-advanced) (St John's, NL, May 29-30).
@@ -13,20 +23,23 @@ The goal of this module is to help familiarize you with statistical methods, ide
 
 ## Contents
 
-* [Statistics for Microbial Diversity](#statistics-for-microbial-diversity)
-* [Alpha Diversity](#alpha-diversity)
-  * [Alpha Diversity for Two Groups](#alpha-diversity-for-two-groups)
-  * [Alpha Diversity for Three or More Groups](#alpha-diversity-for-three-or-more-groups)
-* [Post-hoc Testing and Multiple Test Correction](#post-hoc-testing-and-multiple-test-correction)
-* [Beta Diversity](#beta-diversity)
-  * [Beta Diversity with Two Groups](#beta-diversity-with-two-groups)
-  * [Beta Diversity with Three or More Samples](#beta-diversity-with-three-or-more-samples)
-* [Covariates](#covariates)
-  * [One-Way ANCOVA](#one-way-ancova)
-  * [Two-Way ANCOVA](#two-way-ancova)
-* [Visualizing Taxa Contributions](#visualizing-taxa-contributions)
-* [Random Forest Classification](#random-forest-classification)
-* [Random Forest Regression](#random-forest-regression)
+- [Module 4: Advanced microbiome statistics](#module-4-advanced-microbiome-statistics)
+  - [Overview](#overview)
+  - [Contents](#contents)
+- [Statistics for Microbial Diversity](#statistics-for-microbial-diversity)
+- [Alpha Diversity](#alpha-diversity)
+  - [Alpha Diversity for Two Groups](#alpha-diversity-for-two-groups)
+  - [Alpha Diversity for Three or More Groups](#alpha-diversity-for-three-or-more-groups)
+    - [Post-hoc Testing and Multiple Test Correction](#post-hoc-testing-and-multiple-test-correction)
+- [Beta Diversity](#beta-diversity)
+  - [Beta Diversity with Two Groups](#beta-diversity-with-two-groups)
+  - [Beta Diversity with Three or More Samples](#beta-diversity-with-three-or-more-samples)
+- [Covariates](#covariates)
+  - [One-way ANCOVA](#one-way-ancova)
+  - [Two-way ANCOVA](#two-way-ancova)
+- [Visualizing Taxa Contributions](#visualizing-taxa-contributions)
+- [Random Forest Classification](#random-forest-classification)
+- [Random Forest Regression](#random-forest-regression)
 
 
 # Statistics for Microbial Diversity

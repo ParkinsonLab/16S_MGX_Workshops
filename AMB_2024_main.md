@@ -60,7 +60,7 @@ Coming soon!
 
 *<font color="#827e9c">Morgan Langille</font>*  
 
-<!-- [Module 3 Lecture Recording]()     -->
+[Module 3 Lecture Recording](https://youtu.be/Zun7Iv-ASCk)    
 [Module 3 Lecture Slides](https://drive.google.com/file/d/1Omvxp4bSEfVcqK_5VHGX2nYwU8067d_R/view?usp=sharing)  
 [Module 3 Lab](/AMB_2024_module3)  
 [Module 3 Lab Markdown](https://drive.google.com/file/d/1z6THLA0MfM5rB9POvRc-OS3uiq8eKa04/view?usp=sharing)  
@@ -71,5 +71,5 @@ Coming soon!
 
 <!-- [Module 4 Lecture Recording]()   -->
 [Module 4 Lecture Slides](https://drive.google.com/file/d/12KldaimsQyMwOzFy2e3SegxpPs6iLq6_/view?usp=sharing)  
-<!-- [Module 4 Lab]()   -->
+[Module 4 Lab](/AMB_2024_module4)  
 <!-- [Module 4 Lab Markdown]()   --> 
