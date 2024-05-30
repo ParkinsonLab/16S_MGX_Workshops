@@ -73,13 +73,15 @@ Now that the data is imported, you should see that it is a "Formal class phylose
 
 ## Alpha Diversity for Two Groups
 
+We can do this for any of our metadata categories that have **two** factor levels, such as `high_dysbiosis` or `diagnosis`. For this example, the code will calculate diversity between `high_dysbiosis` factors.
+
 ```
 plot_richness(physeq = data, x="high_dysbiosis", color = "high_dysbiosis", measures = c("Observed", "Chao1", "Shannon")) + geom_boxplot() +theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
 ```
 
 If you would like to substitute some different diversity metrics in this command, go right ahead! Some of the supported measures are: `"Observed", "Chao1", "ACE", "Shannon", "Simpson", "InvSimpson", "Fisher"`. Just know that if you want to do statistics for these measures, you will need to change some of the code in the following section.
 
-Just by visual inspection, we can see that there is not much separation in all three of our boxplots between our `diagnosis` groups. However, to be sure, we should conduct a statistical test.
+Just by visual inspection, we can see that there is some separation of the means in our boxplots between our `high_dysbiosis` groups. However, to be sure, we should conduct a statistical test.
 
 The Mann-Whitney U Test, also called Wilcoxon Rank Sum Test, is a non-parametric statistical test that is used to compare two groups, as we have here in our dataset. Being a non-parametric test, it does not assume normalcy in our data. The test assesses if the two groups are from the same population, i.e. whether they are equal. You can think of it as an extension of the unpaired Student's t-test, which does assume that the data follows a normal distribution. 
 
