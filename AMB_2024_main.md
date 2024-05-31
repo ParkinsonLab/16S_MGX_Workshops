@@ -30,7 +30,7 @@ Connecting and properly using a cloud computing cluster at the CBW [here](/BMB_2
 
 # Class photo
 
-Coming soon!
+[Advanced Microbiome Class of 2024](https://drive.google.com/file/d/1hSTLDnma51X0khtpHhPGJUdThp0lmU2G/view?usp=sharing)  
 
 ***
 
@@ -69,7 +69,7 @@ Coming soon!
 
 *<font color="#827e9c">Monica Alvaro Fuss and Morgan Langille</font>*  
 
-<!-- [Module 4 Lecture Recording]()   -->
+[Module 4 Lecture Recording](https://youtu.be/-QEMDJ8pkJg)  
 [Module 4 Lecture Slides](https://drive.google.com/file/d/12KldaimsQyMwOzFy2e3SegxpPs6iLq6_/view?usp=sharing)  
 [Module 4 Lab](/AMB_2024_module4)  
 [Module 4 Lab Markdown](https://drive.google.com/file/d/1OYsVDoy2ionVtz0SvtALZWQQzCl9PA_T/view?usp=sharing)   
