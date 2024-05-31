@@ -73,3 +73,30 @@ Connecting and properly using a cloud computing cluster at the CBW [here](/BMB_2
 [Module 4 Lecture Slides](https://drive.google.com/file/d/12KldaimsQyMwOzFy2e3SegxpPs6iLq6_/view?usp=sharing)  
 [Module 4 Lab](/AMB_2024_module4)  
 [Module 4 Lab Markdown](https://drive.google.com/file/d/1OYsVDoy2ionVtz0SvtALZWQQzCl9PA_T/view?usp=sharing)   
+
+# Post-Workshop Materials <a id="postworkshop"></a>
+## CourseData
+Note that some of these files are quite large. If you have issues downloading them, try copying the link address, opening a new blank tab, and entering the URL into the new tab's address bar. If that fails, contact us at support@bioinformatics.ca.
+- [amb_module1](https://hpc4health.ca/cbw/2024/MIC/amb_module1.tar.gz)
+- [amb_module4](https://hpc4health.ca/cbw/2024/MIC/amb_module4.tar.gz)
+- [cat_reads](https://hpc4health.ca/cbw/2024/MIC/cat_reads.tar.gz)
+- [Functional_Helper_Scripts](https://hpc4health.ca/cbw/2024/MIC/Functional_Helper_Scripts.tar.gz)
+- [kneaddata_cat_reads](https://hpc4health.ca/cbw/2024/MIC/kneaddata_cat_reads.tar.gz)
+- [kneaddata_out](https://hpc4health.ca/cbw/2024/MIC/kneaddata_out.tar.gz)
+- [kraken2_outraw_RefSeqCompleteV205](https://hpc4health.ca/cbw/2024/MIC/kraken2_outraw_RefSeqCompleteV205.tar.gz)
+- [mapped_matched_fastq](https://hpc4health.ca/cbw/2024/MIC/mapped_matched_fastq.tar.gz)
+- [MMSeqs2_db](https://hpc4health.ca/cbw/2024/MIC/MMSeqs2_db.tar.gz)
+- [mmseqs_U90_out](https://hpc4health.ca/cbw/2024/MIC/mmseqs_U90_out.tar.gz)
+- [raw_data](https://hpc4health.ca/cbw/2024/MIC/raw_data.tar.gz)
+- [scripts](https://hpc4health.ca/cbw/2024/MIC/scripts.tar.gz)
+
+## AMI
+We have made our AWS AMI (Amazon Machine Image) publicly available. To launch your own instance, follow the instructions provided by Amazon on [how to launch an EC2 instance from a custom Amazon Machine Image](https://repost.aws/knowledge-center/launch-instance-custom-ami). Please note that you will need an AWS account to proceed, and that you will need to upload the CourseData files yourself.
+
+Here are the details of the AMI:
+- AWS Region: us-east-1 (N. Virgina)
+- AMI type: public image
+- AMI name: CBW_MIC_240503
+- AMI ID: ami-0390e50a00366e923
+
+If you want to create and activate a new AWS account, please follow the [instructions](https://aws.amazon.com/premiumsupport/knowledge-center/create-and-activate-aws-account/) provided by Amazon.
