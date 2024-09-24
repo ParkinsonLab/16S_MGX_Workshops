@@ -1,1 +1,1 @@
-# AMB_2024
+# AKU Microbiome Workshops 2024
