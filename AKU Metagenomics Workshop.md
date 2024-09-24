@@ -28,7 +28,7 @@ fastqc -t 4 athlete_samples/*fastq -o fastqc_out
 
 Open a couple of the resulting .html files for review. Our sequences are generally of good quality!  
 
->[!Question] Question 1
+>Question 1
 >Look at the *Per base sequence content* of some of these reports. What do you notice?
 
 As mentioned before, these samples were taken from the stool of athletes, and will contain some human data we don't want in our final analysis. Removing contaminant human sequences using kneaddata can be done as follows:
@@ -47,7 +47,7 @@ Unfortunately, we can see that we have very few reads remaining. In this case we
 perl scripts/concat_paired_end.pl -p 4 --no_R_match -o cat_reads_full athlete_samples/*.fastq
 ```
 
->[!QUESTION] Question 1.2
+>Question 1.2
 >What are the dangers of using these raw reads in a real experiment?
 
 ### Taxonomic Annotation
@@ -112,7 +112,7 @@ data@tax_table@.Data[,1] %>% table() # table() is a useful function for tabulati
 bacteria@tax_table@.Data[,1] %>% table()
 ```
 
-> [!QUESTION] Question 1.3
+> Question 1.3
 > How many different phyla of bacteria are in our data? 
 > **HINT:** the function `unique()` can shorten a list to unique elements and `length()` will return the length of a list. 
 
@@ -135,7 +135,7 @@ Here we have two alpha diversity indices:
 
 We can also change the comparison we want to make. Try looking at `bacteria@sam_data` to see which other columns you could compare.
 
-> [!QUESTION] Question 1.4
+> Question 1.4
 > The ultramarathoner Shannon index is noticeably lower than its Observed index. What could this indicate for alpha diversity in our ultramarathoner samples?
 
 Next we can look at beta diversity. Where alpha diversity examined the within-sample diversity, beta diversity computes a distance matrix between all samples to convey *between*-sample diversity. 
@@ -153,7 +153,7 @@ plot_ordination(physeq = bacteria, ordination = ordination, color = "Athlete_typ
 
 Again you can try changing out "Athlete_type" for a different grouping. Notice how changing these points don't actually change how the dots are grouped. 
 
-> [!QUESTION] Question 1.5
+> Question 1.5
 > What does the clustering of these samples by athlete tell you about your samples?
 
 ### Visualizing Taxa
@@ -211,7 +211,7 @@ One of the strengths of shotgun metagenomics analyses over marker gene analyses 
 ### MAG Assembly
 The first step is to arrange our reads into contigs, which are longer, contiguous segments of DNA. We'll use a tool called MEGAHIT to do this. In this tutorial, we are co-assembling our contigs, meaning the contigs will be formed from sequences from all samples rather than contigs being unique to an individual sample. While there are legitimate reasons to do this with real data, our athlete data is collected from public repositories and were taken from different people from different parts of the world. In reality, we would not want to co-assemble these reads, but for the sake of time and ease of analysis, we will do so here. 
 
->[!QUESTION] Question 2.1
+>Question 2.1
 >When would we want to co-assemble our contigs?
 
 We'll use tmux to run megahit in the background, as it is a very time-consuming step. 
@@ -257,7 +257,7 @@ singularity exec --bind="$SCRATCH" images/anvio_7.sif anvi-gen-contigs-database 
 
 You'll note that the output for this step mentions Prodigal. Prodigal is a tool for recognizing prokaryotic genes, and anvio is using it here to identify ORFs. 
 
->[!question] Question 2.2 
+>Question 2.2 
 >How many contigs are in our database? 
 
 ### Identifying Contigs
@@ -277,7 +277,7 @@ anvi-get-sequences-for-gene-calls -c anvio/anvio_databases/contigs.db \
 singularity exec --bind="$SCRATCH" images/anvio_7.sif anvi-get-sequences-for-gene-calls -c anvio/anvio_databases/contigs.db -o anvio/gene_calls.fa
 ```
 
->[!QUESTION] Question 2.3
+>Question 2.3
 >How many genes did anvio identify?
 >**HINT:** we can use the same command we used earlier to find the number of contigs in our `final_contigs.fa` file.
 
@@ -355,7 +355,7 @@ Remember we can read the resulting file with `cat contigs_stats.txt`. While a lo
 - Ribosomal HMMs
 - Number of genomes detected, as predicted by anvio (we have 17 bacterial genomes)
 
->[!QUESTION] Question 2.4
+>Question 2.4
 >How many contigs would we need to look through before getting 90% of the way through the database?
 
 ### Binning
@@ -463,7 +463,7 @@ singularity exec --bind="$SCRATCH" images/checkm.sif checkm lineage_wf --reduced
  - Completeness and redundancy
  - Strain heterogeneity, which attempts to explain where your redundancy could come from. High strain heterogeneity might suggest those additional marker gene copies come from more divergent species. Low strain heterogeneity would suggest the opposite. 
 
->[!QUESTION] Question 2.5
+>Question 2.5
 >What does a strain heterogeneity of 50 indicate?
 
 You'll also notice that many of these lineages are at quite a high level. We can run `tree_qa` to assign more specific taxonomy. 
@@ -612,7 +612,7 @@ treemapPlot(treemap_df, size = "size")
 
 This last function sorts our GO terms into "parent" terms based on how similar they are, then takes into consideration how many times that term pops up. The final output creates a map of these parent terms ranked by abundance! 
 
->[!Question] Question 3.1
+>Question 3.1
 >Which collection of GO terms was most common in our data?
 
 ### Using the Resistance Gene Identifier (RGI)
@@ -663,7 +663,7 @@ singularity exec --bind="$SCRATCH" images/rgi.sif rgi heatmap --input card_out/ 
 The tool helpfully outputs instructions on reading this heatmap:
 >*Output file card_heatmap-12: Yellow represents a perfect hit, teal represents a strict hit, purple represents no hit.*
 
->[!QUESTION] Question 3.2
+>Question 3.2
 >Which antibiotic resistance gene occurs most commonly among our MAGs?
 
 The BWT output will take a bit more work to visualize. We'll be doing some data manipulation first with a python script, then in R.
@@ -709,7 +709,7 @@ ggplot(all_bwt, aes(Sample, Short_Names, fill= log2(Hits))) +
   facet_grid(~Athlete_type, scales = "free_x", space = "free") # sorting heatmap by athlete type
 ```
 
->[!QUESTION] Question 3.3
+>Question 3.3
 >How do these results compare to the `rgi main` results?
 
 ### Cytoscape
