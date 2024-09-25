@@ -250,15 +250,11 @@ anvi-script-reformat-fasta anvio/megahit_out_precomputed/final.contigs.fa \
 	                       --min-len 2000 \ # further filtering our contigs to this length
 	                       -o anvio/final.contigs.fixed.fa # our output file
 
-singularity exec --bind="$SCRATCH" images/anvio_7.sif anvi-script-reformat-fasta anvio/megahit_out_2/final.contigs.fa --simplify-names --min-len 2000 -o anvio/final.contigs.fixed.fa
-
 # Building our contig database 
 mkdir anvio/anvio_databases
 anvi-gen-contigs-database -f anvio/final.contigs.fixed.fa \ # input
                               -o anvio/anvio_databases/contigs.db \ # output
                               -n athlete_db # name of the database
-
-singularity exec --bind="$SCRATCH" images/anvio_7.sif anvi-gen-contigs-database -f anvio/final.contigs.fixed.fa -o anvio/anvio_databases/contigs.db -n athlete_db
 ```
 
 You'll note that the output for this step mentions Prodigal. Prodigal is a tool for recognizing prokaryotic genes, and anvio is using it here to identify ORFs. 
@@ -272,16 +268,12 @@ Now that we have our contigs assembled and organized into a database, we can sta
 ```bash
 anvi-run-hmms -c anvio/anvio_databases/contigs.db \ # testing anvio HMMs on our contigs
                               --num-threads 4
-
-singularity exec --bind="$SCRATCH" images/anvio_7.sif anvi-run-hmms -c anvio/anvio_databases/contigs.db --num-threads 4
 ```
 
 We can then export the results of these HMMs into a separate fasta file.
 ```bash
 anvi-get-sequences-for-gene-calls -c anvio/anvio_databases/contigs.db \
                               -o anvio/gene_calls.fa
-
-singularity exec --bind="$SCRATCH" images/anvio_7.sif anvi-get-sequences-for-gene-calls -c anvio/anvio_databases/contigs.db -o anvio/gene_calls.fa
 ```
 
 >Question 2.3
@@ -320,7 +312,7 @@ do
     samtools view -F 4 -bS anvio/bam_files/$SAMPLE.sam > anvio/bam_files/$SAMPLE-RAW.bam
     
     # 3. sort and index the BAM file:
-    singularity exec --bind="$SCRATCH" images/anvio_7.sif anvi-init-bam anvio/bam_files/$SAMPLE-RAW.bam -o anvio/bam_files/$SAMPLE.bam
+    anvi-init-bam anvio/bam_files/$SAMPLE-RAW.bam -o anvio/bam_files/$SAMPLE.bam
     
     # 4. remove the intermediate BAM file that is no longer needed:
     rm -f anvio/bam_files/$SAMPLE-RAW.bam
@@ -335,21 +327,21 @@ mkdir anvio/profiles
 for SAMPLE in `awk '{print $1}' sample_list.txt`
 do
 
-    singularity exec --bind="$SCRATCH" images/anvio_7.sif anvi-profile -c anvio/anvio_databases/contigs.db \
+    anvi-profile -c anvio/anvio_databases/contigs.db \
                  -i anvio/bam_files/$SAMPLE.bam \
                  --num-threads 4 \
                  -o anvio/profiles/$SAMPLE
 done
 
 # Merging profiles
-singularity exec --bind="$SCRATCH" images/anvio_7.sif anvi-merge -c anvio/anvio_databases/contigs.db \
+anvi-merge -c anvio/anvio_databases/contigs.db \
            -o anvio/profiles/merged_profiles \
            anvio/profiles/*/PROFILE.db
 ```
 
 As a checkpoint, we can look at some key statistics of the contigs so far.
 ```bash
-singularity exec --bind="$SCRATCH" images/anvio_7.sif anvi-display-contigs-stats --report-as-text \
+anvi-display-contigs-stats --report-as-text \
                            --output-file contigs_stats.txt \
                            anvio/anvio_databases/contigs.db
 ```
@@ -378,8 +370,6 @@ Finally, we can cluster our contigs into bins. Anvio uses CONCOCT for this, whic
                          --length-threshold 2000 \ # minimum contig length
                          --num-threads 4 \ # number of threads
                          --just-do-it # ignoring warnings
-
-singularity exec --bind="$SCRATCH" images/anvio_7.sif anvi-cluster-contigs -c anvio/anvio_databases/contigs.db -p anvio/precomputed_profiles/PROFILE.db -C "merged_concoct_2000" --driver CONCOCT --length-threshold 2000 --num-threads 4 --just-do-it
 ```
 
 We want to examine the quality of these bins before moving ahead, so let's generate summaries of our CONCOCT output.
@@ -389,8 +379,6 @@ anvi-summarize -c anvio/anvio_databases/contigs.db \ # contig database
                    -p anvio/precomputed_profiles/PROFILE.db \ # profile database
                    -C "merged_concoct_2000" \ # bin names
                    -o anvio/concoct_summary_2000/summary/ # output folder
-
-singularity exec --bind="$SCRATCH" images/anvio_7.sif anvi-summarize -c anvio/anvio_databases/contigs.db -p anvio/profiles/merged_profiles/PROFILE.db -C "merged_concoct_2000" -o anvio/concoct_summary_2000/summary
 ```
 
 To open some of these summaries, recall we can use `less`
@@ -422,8 +410,6 @@ anvi-rename-bins -c anvio/anvio_databases/contigs.db \ # contig database
                      --max-redundancy-for-MAG 10 \ # redundancy threshold
                      --prefix athlete_db \ # name of our contigs
                      --report-file renaming_bins.txt # output file
-
-singularity exec --bind="$SCRATCH" images/anvio_7.sif anvi-rename-bins -c anvio/anvio_databases/contigs.db -p anvio/profiles/merged_profiles/PROFILE.db --collection-to-read merged_concoct_2000 --collection-to-write athlete_mags --call-MAGs --min-completion-for-MAG 50 --max-redundancy-for-MAG 10 --prefix athlete_db --report-file renaming_bins.txt 
 ```
 
 You might want to implement stricter parameters for your own data if you expect lower quality data, but it is not recommended to allow bins with less than 50% completeness or over 10% redundancy. Bins that do not meet these requirements should either be refined with a different binning method, or removed from further analysis. 
@@ -434,8 +420,6 @@ anvi-summarize -c anvio/anvio_databases/contigs.db \
                    -p anvio/profiles/merged_profiles/PROFILE.db \
                    -C "athlete_mags" \
                    -o anvio/final_mags_summary/
-
-singularity exec --bind="$SCRATCH" images/anvio_7.sif anvi-summarize -c anvio/anvio_databases/contigs.db -p anvio/profiles/merged_profiles/PROFILE.db -C "athlete_mags" -o anvio/final_mags_summary
 ```
 
 And to examine the summaries:
@@ -460,8 +444,6 @@ export CHECKM_DATA_PATH=/scratch/j/jparkin/rchieu/pakistan_workshop/databases/ch
 
 # Then, we run the lineage workflow command
 checkm lineage_wf --reduced_tree -t 4 -x fa MAG_fasta MAGs-CHECKM-lineage -f MAGs-CHECKM.txt --tab_table
-
-singularity exec --bind="$SCRATCH" images/checkm.sif checkm lineage_wf --reduced_tree -t 4 -x fa MAG_fasta MAGs-CHECKM-lineage -f MAGs-CHECKM.txt --tab_table
 ```
  
  The lineage workflow command will go through a few steps with our MAGs, producing output that records which lineages each MAG has been assigned and how that lineage was determined. The columns include:
@@ -478,7 +460,7 @@ singularity exec --bind="$SCRATCH" images/checkm.sif checkm lineage_wf --reduced
 
 You'll also notice that many of these lineages are at quite a high level. We can run `tree_qa` to assign more specific taxonomy. 
 ```bash
-singularity exec --bind="$SCRATCH" images/checkm.sif checkm tree_qa MAGs-CHECKM-lineage -f MAGs-CHECKM-tax.txt --tab_table
+checkm tree_qa MAGs-CHECKM-lineage -f MAGs-CHECKM-tax.txt --tab_table
 ```
 
 We can see that a lot of these bins have acquired genus-level annotations! Not all of these MAGs are at a lower level of taxonomy. This is expected, and just indicates that there is not enough information to be more specific. This is a good stopping point for now - in our final lab, we will cover additional methods of functional annotation and explore ways of visualizing this data.
@@ -632,19 +614,16 @@ The second tool we will use is the Resistance Gene Identifier, or RGI. RGI is us
 # First we load the database.
 rgi load --card_json databases/card/card.json --local
 
-singularity exec --bind="$SCRATCH" images/rgi.sif rgi load --card_json databases/card/card.json --local
-
 # Then we grab the annotations from the database
-singularity exec --bind="$SCRATCH" images/rgi.sif rgi card_annotation -i localDB/card.json > card_annotation.log 2>&1
-
-singularity exec --bind="$SCRATCH" images/rgi.sif rgi wildcard_annotation -i databases/card/wildcard --card_json localDB/card.json -v 3.3.0 > wildcard_annotation.log 2>&1
+rgi card_annotation -i localDB/card.json > card_annotation.log 2>&1
+rgi wildcard_annotation -i databases/card/wildcard --card_json localDB/card.json -v 3.3.0 > wildcard_annotation.log 2>&1
 
 # Moving the annotations to the localDB folder for organization
 mv card_* localDB/
 mv wildcard_* localDB/
 
 # Now loading the whole database
-singularity exec --bind="$SCRATCH" images/rgi.sif rgi load \
+rgi load \
   --card_json databases/card/card.json \
   --debug --local \
   --card_annotation localDB/card_database_v3.3.0.fasta \
@@ -659,16 +638,16 @@ singularity exec --bind="$SCRATCH" images/rgi.sif rgi load \
 Now that the CARD database has been properly loaded into RGI, we can finally run the tool itself. There are two commands we're running here, `main` and `bwt`. `main` acts on a genomic level, while `bwt` analyzes metagenomics reads specifically. 
 ```bash
 mkdir card_out_main
-parallel -j 1 'singularity exec --bind="$SCRATCH" images/rgi.sif rgi main -i {} -o card_out_main/{/.} -t contig -a DIAMOND -n 4 --include_loose --local --clean' ::: MAG_fasta/*
+parallel -j 1 'rgi main -i {} -o card_out_main/{/.} -t contig -a DIAMOND -n 4 --include_loose --local --clean' ::: MAG_fasta/*
 
 mkdir card_out_bwt
-parallel -j 1 --xapply 'singularity exec --bind="$SCRATCH" images/rgi.sif rgi bwt --read_one {1} --read_two {2} --aligner bowtie2 --output_file card_out_bwt/{1/.}_CARD --threads 2 --local --clean' \
+parallel -j 1 --xapply 'rgi bwt --read_one {1} --read_two {2} --aligner bowtie2 --output_file card_out_bwt/{1/.}_CARD --threads 2 --local --clean' \
  ::: athlete_samples/*_1.fastq ::: athlete_samples/*_2.fastq
 ```
 
 To visualize the `main` results:
 ```bash
-singularity exec --bind="$SCRATCH" images/rgi.sif rgi heatmap --input card_out/ --output card_heatmap
+rgi heatmap --input card_out/ --output card_heatmap
 ```
 
 The tool helpfully outputs instructions on reading this heatmap:
