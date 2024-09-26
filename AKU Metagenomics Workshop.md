@@ -32,7 +32,7 @@ Open a couple of the resulting .html files for review. Our sequences are general
 >
 >Look at the *Per base sequence content* of some of these reports. What do you notice?
 
-As mentioned before, these samples were taken from the stool of athletes, and will contain some human data we don't want in our final analysis. Removing contaminant human sequences using kneaddata can be done as follows:
+As mentioned before, these samples were taken from the stool of athletes, and will contain some human data we don't want in our final analysis. We are also using parallel, a tool that helps us run a command with a series of different inputs. parallel is used in this case to feed kneaddata each pair of your fastq files without the need for you to type out this command for each file. Removing contaminant human sequences using kneaddata can be done as follows:
 ```bash
 parallel -j 1 --eta --xapply 'kneaddata --input {1} --input {2} -o kneaddata_out -db databases/kneaddata --bypass-trim --remove-intermediate-output' ::: athlete_samples/*1.fastq ::: athlete_samples/*2.fastq
 ```
@@ -120,7 +120,7 @@ bacteria@tax_table@.Data[,1] %>% table()
 > **HINT:** the function `unique()` can shorten a list to unique elements and `length()` will return the length of a list. 
 
 ### Diversity Analyses
-One of the most common metrics with which to examine your microbiome data is through alpha and beta diversity measures. Alpha diversity can be measured in several ways, but primarily concerns the within-sample diversity of your data. 
+One of the most common metrics with which to examine your microbiome data is through alpha and beta diversity measures. As a reminder, alpha diversity can be measured in several ways, but primarily concerns the within-sample diversity of your data. 
 ```r
 plot_richness(physeq = bacteria, x = "Athlete_type", color = "Athlete_type", 
 			  measures = c("Observed", "Shannon")) + 
