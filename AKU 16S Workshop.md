@@ -1,6 +1,6 @@
 # 16S Workshop
 ## Introduction
-Welcome to the lab portion of the workshops! This tutorial will run through the steps of processing 16S rRNA microbiome data, from raw reads to useable files that you will be able to perform analyses on. 16S studies are a great entry point to the microbiome, as samples are relatively cheap to sequence and the data processing and analysis is often uncomplicated. 
+Welcome to the data analysis portion of the workshops! This tutorial will run through the steps of processing 16S rRNA microbiome data, from raw reads to useable files that you will be able to perform analyses on. 16S studies are a great entry point to the microbiome, as samples are relatively cheap to sequence and the data processing and analysis is often uncomplicated. 
 
 We'll be using 10 samples sequenced from chicken cecal content. These samples were originally studied for differences in antibiotic usage, and were sequenced using the V4/V5 hypervariable region of the 16S rRNA gene. You can read more about this study [here](https://doi.org/10.1186/s42523-021-00157-6). 
 
