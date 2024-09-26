@@ -33,7 +33,8 @@ fastqc -t 4 chicken_samples/*.fastq.gz -o fastqc_out/
 
 Fastqc outputs `.html` files that can be opened and viewed on a web browser. Open one up and you will see a variety of metrics that can be used to assess the quality of your reads. For 16S data, we are primarily concerned with "Per base sequence quality".
 
->Question 2.1 
+>Question 2.1
+>
 >Some of the other sections of the fastqc report, like "Per base sequence content" shows up as a warning. Why are these sections not as important for our data?
 
 ### Importing into QIIME
@@ -122,6 +123,7 @@ If there does not appear to be enough reads left in this output, try going back 
 You have ASVs now! Keep the output handy, as you will need to refer back to it to get parameters for a few of the upcoming commands. 
 
 >Question 2.2
+>
 >Take a look at the `deblur_table.qzv` visualization. What is the average frequency of our ASVs?
 
 ### Identifying Taxa
@@ -143,7 +145,8 @@ qiime tools export --input-path taxa/taxonomy.qza --output-path taxa
 less taxa/taxonomy.tsv
 ```
 
->Question 2.3 
+>Question 2.3
+>
 >How many ASVs do we have?
 
 That takes us to the end of this portion of the workshop. The next lab will explore ways to analyze and visualize these ASVs, but for now, look through your list of taxa. Are there any that seem unexpected? Which taxa seem to pop up more often?
@@ -210,6 +213,7 @@ qiime diversity alpha-rarefaction --i-table deblur_output/table.qza \
 Check out the file on the QIIME viewer. Do the samples look as expected? Try changing the metric to see whether that changes. 
 
 >Question 3.1
+>
 >How do we know if a sample properly captures the original community?
 
 ### Diversity Metrics
@@ -233,6 +237,7 @@ qiime diversity alpha-group-significance --i-alpha-diversity diversity/shannon_v
 ```
 
 >Question 3.2
+>
 >Are any of our conditions associated with higher alpha diversity?
 
 ### Differential Abundance
@@ -256,6 +261,7 @@ The ANCOM visualization outputs one figure and two tables:
 - The second chart shows the abundances of those ASVs in each group over quartiles.
 
 >Question 3.3
+>
 >Which taxon is significantly more abundant in control samples?
 >**HINT:** Use `grep`!
 
