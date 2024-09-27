@@ -34,7 +34,7 @@ Open a couple of the resulting .html files for review. Our sequences are general
 
 As mentioned before, these samples were taken from the stool of athletes, and will contain some human data we don't want in our final analysis. We are also using parallel, a tool that helps us run a command with a series of different inputs. parallel is used in this case to feed kneaddata each pair of your fastq files without the need for you to type out this command for each file. Removing contaminant human sequences using kneaddata can be done as follows:
 ```bash
-parallel -j 1 --eta --xapply 'kneaddata --input {1} --input {2} -o kneaddata_out -db databases/kneaddata --bypass-trim --remove-intermediate-output' ::: athlete_samples/*1.fastq ::: athlete_samples/*2.fastq
+parallel -j 1 --eta --xapply 'kneaddata --input1 {1} --input2 {2} -o kneaddata_out -db databases/kneaddata --bypass-trim --remove-intermediate-output' ::: athlete_samples/*1.fastq ::: athlete_samples/*2.fastq
 ```
 
 Now we combine relevant output reads into one fastq using a perl script from MicrobiomeHelper.
