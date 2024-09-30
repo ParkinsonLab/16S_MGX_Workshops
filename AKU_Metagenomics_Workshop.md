@@ -47,7 +47,7 @@ perl scripts/concat_paired_end.pl -p 4 --no_R_match -o cat_reads kneaddata_out/p
 Unfortunately, we can see that we have very few reads remaining. In this case we chose samples with a low number of reads for a small scale lab, and as such there might not have been as much bacterial biomass. Just for this tutorial, we will go ahead with the raw reads (not recommended for a normal experiment!).
 ```bash
 # raw reads
-perl scripts/concat_paired_end.pl -p 4 --no_R_match -o cat_reads_full athlete_samples/*.fastq
+perl scripts/concat_paired_end.pl -p 4 -o cat_reads_full athlete_samples/*.fastq
 ```
 
 >Question 1.2
@@ -576,7 +576,7 @@ test_sample_SRR2992927$UniRef_Code = test_sample_SRR2992927$UniRef %>% substr(10
 # then upload the file to the link above
 
 # output from uniprot id mapper
-idmapping_SRR2992927 <- read_delim("precomputed_files/idmapping_SRR2992927.tsv", 
+idmapping_SRR2992927 <- read_delim("idmapping_SRR2992927.tsv", 
     delim = "\t", escape_double = FALSE, 
     trim_ws = TRUE)
 ```
@@ -620,6 +620,8 @@ The second tool we will use is the Resistance Gene Identifier, or RGI. RGI is us
 rgi load --card_json databases/card/card.json --local
 
 # Then we grab the annotations from the database
+gunzip /databases/checkm/wildcard/*.gz
+
 rgi card_annotation -i localDB/card.json > card_annotation.log 2>&1
 rgi wildcard_annotation -i databases/card/wildcard --card_json localDB/card.json -v 3.3.0 > wildcard_annotation.log 2>&1
 
