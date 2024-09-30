@@ -444,7 +444,8 @@ And now we have our MAGs! This was a long and involved process, but this is wher
 ### Annotating Bins with Taxonomy
 We want to point CheckM to its database, which we can do with this command:
 ```bash
-export CHECKM_DATA_PATH=/scratch/j/jparkin/rchieu/pakistan_workshop/databases/checkm
+tar --strip-components=1 -xzvf databases/checkm/checkm_db.tar.gz
+export CHECKM_DATA_PATH=/home/mg_user/Desktop/Metagenomics_Workshop/databases/checkm
 
 # Then, we run the lineage workflow command
 checkm lineage_wf --reduced_tree -t 4 -x fa MAG_fasta MAGs-CHECKM-lineage -f MAGs-CHECKM.txt --tab_table
