@@ -32,14 +32,15 @@ Open a couple of the resulting .html files for review. Our sequences are general
 >
 >Look at the *Per base sequence content* of some of these reports. What do you notice?
 
-As mentioned before, these samples were taken from the stool of athletes, and will contain some human data we don't want in our final analysis. We are also using parallel, a tool that helps us run a command with a series of different inputs. parallel is used in this case to feed kneaddata each pair of your fastq files without the need for you to type out this command for each file. Removing contaminant human sequences using kneaddata can be done as follows:
+As mentioned before, these samples were taken from the stool of athletes, and will contain some human data we don't want in our final analysis. Because this step can take quite a while, we will try the command on just one pair of samples. The full set of reads after decontamination can be found at `kneaddata_out/precomputed/`. You can run the following command as is or replace it with a different pair of reads. 
+Removing contaminant human sequences using kneaddata can be done as follows:
 ```bash
-parallel -j 1 --eta --xapply 'kneaddata --input1 {1} --input2 {2} -o kneaddata_out -db databases/kneaddata --bypass-trim --remove-intermediate-output' ::: athlete_samples/*1.fastq ::: athlete_samples/*2.fastq
+kneaddata --input1 athlete_samples/SRR2992927.R2.fastq --input2 athlete_samples/SRR2992927.R1.fastq -o kneaddata_out -db databases/kneaddata --bypass-trim --remove-intermediate-output
 ```
 
 Now we combine relevant output reads into one fastq using a perl script from MicrobiomeHelper.
 ```bash
-perl scripts/concat_paired_end.pl -p 4 --no_R_match -o cat_reads kneaddata_out/*_paired_contam*.fastq
+perl scripts/concat_paired_end.pl -p 4 --no_R_match -o cat_reads kneaddata_out/precomputed/*_paired_contam*.fastq
 ```
 
 Unfortunately, we can see that we have very few reads remaining. In this case we chose samples with a low number of reads for a small scale lab, and as such there might not have been as much bacterial biomass. Just for this tutorial, we will go ahead with the raw reads (not recommended for a normal experiment!).
@@ -53,7 +54,7 @@ perl scripts/concat_paired_end.pl -p 4 --no_R_match -o cat_reads_full athlete_sa
 >What are the dangers of using these raw reads in a real experiment?
 
 ### Taxonomic Annotation
-Using kraken2 to annotate these files:
+Using kraken2 to annotate these files. We are also using parallel, a tool that helps us run a command with a series of different inputs. parallel is used in this case to feed kraken2 each pair of your fastq files without the need for you to type out this command for each file:
 ```bash
 mkdir kraken2_kreport
 mkdir kraken2_outraw
