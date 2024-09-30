@@ -35,6 +35,7 @@ Open a couple of the resulting .html files for review. Our sequences are general
 As mentioned before, these samples were taken from the stool of athletes, and will contain some human data we don't want in our final analysis. Because this step can take quite a while, we will try the command on just one pair of samples. The full set of reads after decontamination can be found at `kneaddata_out/precomputed/`. You can run the following command as is or replace it with a different pair of reads. 
 Removing contaminant human sequences using kneaddata can be done as follows:
 ```bash
+tar --strip-components=1 -xzvf databases/kneaddata/kddb.tar.gz
 kneaddata --input1 athlete_samples/SRR2992927.R2.fastq --input2 athlete_samples/SRR2992927.R1.fastq -o kneaddata_out -db databases/kneaddata --bypass-trim --remove-intermediate-output
 ```
 
@@ -58,6 +59,8 @@ Using kraken2 to annotate these files. We are also using parallel, a tool that h
 ```bash
 mkdir kraken2_kreport
 mkdir kraken2_outraw
+
+tar --strip-components=1 -xzvf databases/kraken2/k2_db.tar.gz
 parallel -j 1 --eta 'kraken2 --db databases/kraken2  --output kraken2_outraw/{/.}.kraken --report kraken2_kreport/{/.}.kreport --confidence 0 {}' ::: cat_reads_full/*.fastq
 ```
 
