@@ -80,7 +80,7 @@ qiime demux summarize --i-data qza_files/trimmed_chicken.qza --o-visualization q
 ### Denoising Reads
 To obtain our ASVs, we can use deblur, which denoises our reads by removing low quality reads, improving ASV assignment. QIIME also included another tool, DADA2, which can support paired-end reads. Because deblur does not, we will join our reads together using VSEARCH.
 ```bash
-qiime vsearch join-pairs --i-demultiplexed-seqs qza_files/trimmed_chicken.qza \
+qiime vsearch merge-pairs --i-demultiplexed-seqs qza_files/trimmed_chicken.qza \
                          --o-joined-sequences qza_files/trimmed_chicken_joined.qza
 
 # Summarize and visualize the joined qza file
