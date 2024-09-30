@@ -20,7 +20,7 @@ wc -l athlete_samples/*1.fastq
 cat sample_metadata.tsv
 ```
 
-Our first step will be to run fastqc, to examine the quality of these samples. We can open each fastqc report as an html file and assess our quality metrics. 
+Our first step will be to run fastqc, to examine the quality of these samples. We can open each fastqc report as an `.html` file (outside command-line; navigate to ` in the file explorer) using the web browser and assess our quality metrics. 
 ```bash
 mkdir fastqc_out
 fastqc -t 4 athlete_samples/*fastq -o fastqc_out
