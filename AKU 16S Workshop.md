@@ -38,7 +38,12 @@ Fastqc outputs `.html` files that can be opened and viewed on a web browser. Ope
 >Some of the other sections of the fastqc report, like "Per base sequence content" shows up as a warning. Why are these sections not as important for our data?
 
 ### Importing into QIIME
-QIIME stores your data in a `.qza` file, which keeps track of your files as they run through each step. To create this file, we can import our raw reads into QIIME.
+QIIME stores your data in a `.qza` file, which keeps track of your files as they run through each step. Before we can access QIIME, we have to activate its conda environment. 
+```bash
+source activate qiime2-amplicon-2024.5
+```
+
+To create the `.qza` file, we can import our raw reads into QIIME.
 ```bash
 mkdir qza_files
 # This command imports our paired end fastqs qza file
