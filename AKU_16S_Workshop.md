@@ -81,7 +81,8 @@ qiime demux summarize --i-data qza_files/trimmed_chicken.qza --o-visualization q
 To obtain our ASVs, we can use deblur, which denoises our reads by removing low quality reads, improving ASV assignment. QIIME also included another tool, DADA2, which can support paired-end reads. Because deblur does not, we will join our reads together using VSEARCH.
 ```bash
 qiime vsearch merge-pairs --i-demultiplexed-seqs qza_files/trimmed_chicken.qza \
-                         --o-joined-sequences qza_files/trimmed_chicken_joined.qza
+                         --o-merged-sequences qza_files/trimmed_chicken_joined.qza \
+			 --o-unmerged-sequences
 
 # Summarize and visualize the joined qza file
 qiime demux summarize --i-data qza_files/trimmed_chicken_joined.qza --o-visualization qzv_files/trimmed_chicken_joined.qzv
@@ -101,8 +102,8 @@ The visualization here is important for picking a trimming length for our last d
 It is ideal to keep the quality scores of these reads above 20-30. Accordingly, we can set our trim length at 160. You can highlight portions of the plot to zoom in, and see in this case that the lower quality portions of the reads tend to end here. 
 
 A couple of guidelines to keep in mind for your own data:
-- Even if our quality scores were perfect, we want a minimum of 10 for this value
-- It is ideal to keep the quality scores of these reads above 20-30. 
+- Even if our quality scores were good, we want a minimum of 10 for our trim length to be safe; the first several bases are often of lower quality
+- It is ideal to keep the quality scores of these reads above 20-30
 - Keep in mind we do not want a trim length longer than our reads
 ```bash
 # Run deblur
@@ -140,7 +141,6 @@ mkdir taxa
 
 qiime feature-classifier classify-sklearn --i-reads deblur_output/representative_sequences.qza \
                                           --i-classifier databases/greengenes/gg-13-8-99-nb-classifier.qza\
-                                          --p-n-jobs 4 \
                                           --o-classification taxa/taxonomy.qza
 
 # As with all QZA files, you can export the output file to take a look at the classifications and confidence scores
