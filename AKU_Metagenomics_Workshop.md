@@ -63,7 +63,10 @@ Using kraken2 to annotate these files. We are also using parallel, a tool that h
 mkdir kraken2_kreport
 mkdir kraken2_outraw
 
-tar --strip-components=1 -xzvf databases/kraken2/k2_db.tar.gz
+cd databases/kraken2/
+tar -xzvf k2_db.tar.gz
+cd /home/mg_user/Desktop/Metagenomics_Workshop
+
 parallel -j 1 --eta 'kraken2 --db databases/kraken2  --output kraken2_outraw/{/.}.kraken --report kraken2_kreport/{/.}.kreport --confidence 0 {}' ::: cat_reads_full/*.fastq
 ```
 
