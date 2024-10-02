@@ -14,8 +14,11 @@ Our first tutorial will cover quality control and taxonomic annotation. We are d
 ### Processing Raw Reads
 For the metagenomics labs, we will be using a set of 8 gut microbiome samples collected from various athletes. We can examine the files by checking how many reads are in each sample, and looking at the metadata associated with each sample. 
 ```bash
-ls athlete_samples
-wc -l athlete_samples/*1.fastq
+cd athlete_samples # going into the athlete sample directory
+tar -xzvf athlete_samples.tar.gz # unpacking our samples
+ls # listing samples
+cd /home/mg_user/Desktop/Metagenomics_Workshop
+wc -l athlete_samples/*1.fastq # checking how many reads are in each sample; remember to divide by 4 to get the true number of reads!
 
 cat sample_metadata.tsv
 ```
