@@ -58,22 +58,19 @@ perl scripts/concat_paired_end.pl -p 4 -o cat_reads_full athlete_samples/*.fastq
 >What are the dangers of using these raw reads in a real experiment?
 
 ### Taxonomic Annotation
-Using kraken2 to annotate these files. We are also using parallel, a tool that helps us run a command with a series of different inputs. parallel is used in this case to feed kraken2 each pair of your fastq files without the need for you to type out this command for each file:
+Using kraken2 to annotate these files. You can try running kraken2 on one merged fastq - this will take a while, so we've provided the full output in `kraken2_outraw/precomputed` and `kraken2_kreport/precomputed`. 
 ```bash
-mkdir kraken2_kreport
-mkdir kraken2_outraw
-
 cd databases/kraken2/
 tar -xzvf k2_db.tar.gz
 cd /home/mg_user/Desktop/Metagenomics_Workshop
 
-parallel -j 1 --eta 'kraken2 --db databases/kraken2  --output kraken2_outraw/{/.}.kraken --report kraken2_kreport/{/.}.kreport --confidence 0 {}' ::: cat_reads_full/*.fastq
+kraken2 --db databases/kraken2  --output kraken2_outraw/{/.}.kraken --report kraken2_kreport/{/.}.kreport --confidence 0
 ```
 
-Using bracken to quantify our taxa from kraken2 outputs.
+Using bracken to quantify our taxa from kraken2 outputs. We are also using parallel, a tool that helps us run a command with a series of different inputs. parallel is used in this case to feed bracken each kraken2 report without the need for you to type out this command for each file:
 ```bash
 mkdir bracken_out
-parallel -j 2 --eta 'bracken -d databases/kraken2 -i {} -o bracken_out/{/.}.species.bracken -r 100 -l S -t 1' ::: kraken2_kreport/*.kreport
+parallel -j 2 --eta 'bracken -d databases/kraken2 -i {} -o bracken_out/{/.}.species.bracken -r 100 -l S -t 1' ::: kraken2_kreport/precomputed/*.kreport
 ```
 
 Exports our kraken stuff to R.
