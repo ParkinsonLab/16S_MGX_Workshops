@@ -58,13 +58,13 @@ perl scripts/concat_paired_end.pl -p 4 -o cat_reads_full athlete_samples/*.fastq
 >What are the dangers of using these raw reads in a real experiment?
 
 ### Taxonomic Annotation
-Using kraken2 to annotate these files. You can try running kraken2 on one merged fastq - this will take a while, so we've provided the full output in `kraken2_outraw/precomputed` and `kraken2_kreport/precomputed`. 
+Using kraken2 to annotate these files. Try running kraken2 on one merged fastq - this will take a while, so we've provided the full output in `kraken2_outraw/precomputed` and `kraken2_kreport/precomputed`. 
 ```bash
 cd databases/kraken2/
 tar -xzvf k2_db.tar.gz
 cd /home/mg_user/Desktop/Metagenomics_Workshop
 
-kraken2 --db databases/kraken2  --output kraken2_outraw/{/.}.kraken --report kraken2_kreport/{/.}.kreport --confidence 0
+kraken2 --db databases/kraken2  --output kraken2_outraw/SRR2992927.kraken --report kraken2_kreport/SRR2992927.kreport --confidence 0 cat_reads_full/SRR2992927.fastq
 ```
 
 Using bracken to quantify our taxa from kraken2 outputs. We are also using parallel, a tool that helps us run a command with a series of different inputs. parallel is used in this case to feed bracken each kraken2 report without the need for you to type out this command for each file:
