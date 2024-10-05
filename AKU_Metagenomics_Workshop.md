@@ -233,7 +233,7 @@ The first step is to arrange our reads into contigs, which are longer, contiguou
 >
 >When would we want to co-assemble our contigs?
 
-We'll use tmux to run megahit in the background, as it is a very time-consuming step. 
+We'll use tmux to run megahit in the background, as it is a very time-consuming step. Depending on your RAM settings, this may slow down your virtual box! Feel free to stop if you would rather use the pre-computed files. 
 ```bash
 # Creating a new tmux environment
 tmux new-session -A -s anvio
@@ -257,22 +257,18 @@ You can check on your progress at any time using `tmux attach`. Because the comm
 
 Next we'll run a quick formatting step on our final.contigs.fa before integrating it into a database. This database will serve as a jumping off point for the next few anvio tools, and stores information like the position of ORFs and any annotations. 
 ```bash
-# Formatting 
-anvi-script-reformat-fasta anvio/megahit_out_precomputed/final.contigs.fa \
-	                       --simplify-names \ # reducing descriptive names
-	                       --min-len 2000 \ # further filtering our contigs to this length
-	                       -o anvio/final.contigs.fixed.fa # our output file
-# if the above command does not work, try the following (removing comments)
+# Formatting
 anvi-script-reformat-fasta anvio/megahit_out_precomputed/final.contigs.fa --simplify-names --min-len 2000 -o anvio/final.contigs.fixed.fa
+# simplify-names reduces descriptive names
+# min-len further filters our contigs to this length
 
 # Building our contig database 
 mkdir anvio/anvio_databases
-anvi-gen-contigs-database -f anvio/final.contigs.fixed.fa \ # input
-                              -o anvio/anvio_databases/contigs.db \ # output
-                              -n athlete_db # name of the database
+anvi-gen-contigs-database -f anvio/final.contigs.fixed.fa -o anvio/anvio_databases/contigs.db -n athlete_db
+# -n denotes the name of the database
 ```
 
-You'll note that the output for this step mentions Prodigal. Prodigal is a tool for recognizing prokaryotic genes, and anvio is using it here to identify ORFs. 
+You'll note that the output for this step mentions Prodigal. Prodigal is a tool for recognizing prokaryotic genes, and anvio is using it here to identify ORFs. You will also notice that a large proportion of our contigs were removed! This is due to the filter we put into place, to keep only contigs of length 2000 or above. 
 
 >Question 2.2
 >
@@ -281,14 +277,12 @@ You'll note that the output for this step mentions Prodigal. Prodigal is a tool 
 ### Identifying Contigs
 Now that we have our contigs assembled and organized into a database, we can start to identify genes are here. First we will use hidden Markov models (HMMs) that come with anvio. HMMs are probabilistic models that are used often in computational biology, with a broad variety of applications. For our purposes, HMMs can be used to determine the probability that a particular gene exists within our contigs. 
 ```bash
-anvi-run-hmms -c anvio/anvio_databases/contigs.db \ # testing anvio HMMs on our contigs
-                              --num-threads 4
+anvi-run-hmms -c anvio/anvio_databases/contigs.db # testing anvio HMMs on our contigs
 ```
 
 We can then export the results of these HMMs into a separate fasta file.
 ```bash
-anvi-get-sequences-for-gene-calls -c anvio/anvio_databases/contigs.db \
-                              -o anvio/gene_calls.fa
+anvi-get-sequences-for-gene-calls -c anvio/anvio_databases/contigs.db -o anvio/gene_calls.fa
 ```
 
 >Question 2.3
@@ -342,23 +336,16 @@ mkdir anvio/profiles
 for SAMPLE in `awk '{print $1}' sample_list.txt`
 do
 
-    anvi-profile -c anvio/anvio_databases/contigs.db \
-                 -i anvio/bam_files/$SAMPLE.bam \
-                 --num-threads 4 \
-                 -o anvio/profiles/$SAMPLE
+    anvi-profile -c anvio/anvio_databases/contigs.db -i anvio/bam_files/$SAMPLE.bam --num-threads 4 -o anvio/profiles/$SAMPLE
 done
 
 # Merging profiles
-anvi-merge -c anvio/anvio_databases/contigs.db \
-           -o anvio/profiles/merged_profiles \
-           anvio/profiles/*/PROFILE.db
+anvi-merge -c anvio/anvio_databases/contigs.db -o anvio/profiles/merged_profiles anvio/profiles/*/PROFILE.db
 ```
 
 As a checkpoint, we can look at some key statistics of the contigs so far.
 ```bash
-anvi-display-contigs-stats --report-as-text \
-                           --output-file contigs_stats.txt \
-                           anvio/anvio_databases/contigs.db
+anvi-display-contigs-stats --report-as-text --output-file contigs_stats.txt anvio/anvio_databases/contigs.db
 ```
 
 Remember we can read the resulting file with `cat contigs_stats.txt`. While a lot of these fields are self-explanatory, there are a few that are less so:
@@ -390,10 +377,10 @@ Finally, we can cluster our contigs into bins. Anvio uses CONCOCT for this, whic
 We want to examine the quality of these bins before moving ahead, so let's generate summaries of our CONCOCT output.
 ```bash
 mkdir anvio/concoct_summary_2000
-anvi-summarize -c anvio/anvio_databases/contigs.db \ # contig database
-                   -p anvio/precomputed_profiles/PROFILE.db \ # profile database
-                   -C "merged_concoct_2000" \ # bin names
-                   -o anvio/concoct_summary_2000/summary/ # output folder
+anvi-summarize -c anvio/anvio_databases/contigs.db -p anvio/precomputed_profiles/PROFILE.db -C "merged_concoct_2000" -o anvio/concoct_summary_2000/summary
+# -c contig database
+# -p profile database
+# -C denotes bin names
 ```
 
 To open some of these summaries, recall we can use `less`
@@ -416,25 +403,23 @@ anvi-refine -c anvio/anvio_databases/contigs.db \
 
 With our bins formed, we want to export everything to MAGs. We'll filter our bins first, to have at least 50% completeness and at most 10% redundancy. 
 ```bash
-anvi-rename-bins -c anvio/anvio_databases/contigs.db \ # contig database
-                     -p anvio/profiles/merged_profiles/PROFILE.db \ # profile database
-                     --collection-to-read merged_concoct_2000 \ # concoct bins
-                     --collection-to-write athlete_mags \ # new name of bins
-                     --call-MAGs \ # renaming bins to mags
-                     --min-completion-for-MAG 50 \ # completion threshold
-                     --max-redundancy-for-MAG 10 \ # redundancy threshold
-                     --prefix athlete_db \ # name of our contigs
-                     --report-file renaming_bins.txt # output file
+anvi-rename-bins -c anvio/anvio_databases/contigs.db -p anvio/profiles/merged_profiles/PROFILE.db --collection-to-read merged_concoct_2000 --collection-to-write athlete_mags --call-MAGs --min-completion-for-MAG 50 --max-redundancy-for-MAG 10 --prefix athlete_db --report-file renaming_bins.txt
+# -c contig database
+# -p profile database
+# collection-to-read: concoct bins
+# collection-to-write: new name of bins
+# call-MAGs: renaming bins to mags
+# min-completion-for-MAG: completion threshold
+# max-redundancy-for-MAG: redundancy threshold
+# prefix: name of our contigs
+# report-file: output file
 ```
 
 You might want to implement stricter parameters for your own data if you expect lower quality data, but it is not recommended to allow bins with less than 50% completeness or over 10% redundancy. Bins that do not meet these requirements should either be refined with a different binning method, or removed from further analysis. 
 
 Now we'll summarize these MAGs like we did before. 
 ```bash
-anvi-summarize -c anvio/anvio_databases/contigs.db \
-                   -p anvio/profiles/merged_profiles/PROFILE.db \
-                   -C "athlete_mags" \
-                   -o anvio/final_mags_summary/
+anvi-summarize -c anvio/anvio_databases/contigs.db -p anvio/profiles/merged_profiles/PROFILE.db -C "athlete_mags" -o anvio/final_mags_summary
 ```
 
 And to examine the summaries:
