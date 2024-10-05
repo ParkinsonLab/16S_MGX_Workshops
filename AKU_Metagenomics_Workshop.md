@@ -264,8 +264,9 @@ anvi-script-reformat-fasta anvio/megahit_out_precomputed/final.contigs.fa --simp
 
 # Building our contig database 
 mkdir anvio/anvio_databases
-anvi-gen-contigs-database -f anvio/final.contigs.fixed.fa -o anvio/anvio_databases/contigs.db -n athlete_db
+anvi-gen-contigs-database -f anvio/final.contigs.fixed.fa -o anvio/anvio_databases/contigs.db -n athlete_db -T 4
 # -n denotes the name of the database
+# this step will take a while!
 ```
 
 You'll note that the output for this step mentions Prodigal. Prodigal is a tool for recognizing prokaryotic genes, and anvio is using it here to identify ORFs. You will also notice that a large proportion of our contigs were removed! This is due to the filter we put into place, to keep only contigs of length 2000 or above. 
@@ -277,8 +278,9 @@ You'll note that the output for this step mentions Prodigal. Prodigal is a tool 
 ### Identifying Contigs
 Now that we have our contigs assembled and organized into a database, we can start to identify genes are here. First we will use hidden Markov models (HMMs) that come with anvio. HMMs are probabilistic models that are used often in computational biology, with a broad variety of applications. For our purposes, HMMs can be used to determine the probability that a particular gene exists within our contigs. 
 ```bash
-anvi-run-hmms -c anvio/anvio_databases/contigs.db # testing anvio HMMs on our contigs
+anvi-run-hmms -c anvio/anvio_databases/contigs.db -T 4 # testing anvio HMMs on our contigs
 ```
+You can see that anvio runs a series of HMMs here. Keep an eye on the output to see what they are picking up in our data!
 
 We can then export the results of these HMMs into a separate fasta file.
 ```bash
@@ -305,6 +307,7 @@ Now that these bins are sorted, we can run this loop. It looks complicated but i
 4. Remove intermediate files
 ```bash
 mkdir anvio/bam_files
+cut -f1 sample_metadata.tsv | tail -n +2 > sample_list.txt # making a file with just our sample names for the loop to parse 
 
 for SAMPLE in `awk '{print $1}' sample_list.txt`
 do
@@ -312,8 +315,8 @@ do
     # 1. do the bowtie mapping to get the SAM file:
     bowtie2 --threads 4 \
             -x anvio/bowtie2_output/final.contigs.fixed \
-            -1 "athlete_samples/"$SAMPLE"_1.fastq" \
-            -2 "athlete_samples/"$SAMPLE"_2.fastq" \
+            -1 "athlete_samples/"$SAMPLE".R1.fastq" \
+            -2 "athlete_samples/"$SAMPLE".R2.fastq" \
             --no-unal \
             -S anvio/bam_files/$SAMPLE.sam
 
