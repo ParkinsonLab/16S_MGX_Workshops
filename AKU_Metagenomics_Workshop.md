@@ -89,6 +89,12 @@ library(taxonomizr)
 library(tidyverse)
 ```
 
+Then we will set our working directory so that we can access our recent output.
+
+```r
+setwd("/home/mg_user/Desktop/Metagenomics_Workshop")
+```
+
 For those of you new to R, it is a programming language that is often used by computational biologists. A lot of bioinformatics tools, including those useful for microbiome data, can be accessed here. Unlike command line, you can write out multiple lines of commands and execute them whenever you wish. Feel free to ask about anything confusing, but some of the key ideas are here:
 - `library()` loads packages that are not included in base R. We need to load these packages to access their commands.
 - At times you will see `x <- y` or `x = y`. Both indicate that a variable is being assigned, the syntax is interchangable.
@@ -171,7 +177,7 @@ Again you can try changing out "Athlete_type" for a different grouping. Notice h
 ### Visualizing Taxa
 Finally we can visualize the relative abundances of these taxa in each sample. Phyloseq comes with a useful function `tax_glom()`, that lets you group up everything by a given taxonomic rank. We will visualize at the family level to reduce the number of features. 
 ```r
-bacteria_family <- tax_glom(rarefied, taxrank = "Family")
+bacteria_family <- tax_glom(bacteria, taxrank = "Family")
 bacteria_family = psmelt(bacteria_family) 
 ```
 
@@ -187,7 +193,7 @@ bacteria_family$Family[bacteria_family$Abundance < 2500] = "Other"
 
 This leaves us with 25 families. Before we move onto plotting the taxa, we'll have to make a colour palette that works with that many taxa. One way to do this is with the use of the RColorBrewer package. Here we expand a pre-set palette from RColorBrewer into a larger palette with the stated number of colours. You can check using `display.brewer.all()` for other palettes
 ```r
-family_palette = colorRampPalette(brewer.pal(12, "Set3"))(25)
+family_palette = colorRampPalette(RColorBrewer::brewer.pal(12, "Set3"))(25)
 
 # And finally, we can visualize using ggplot
 ggplot(data=bacteria_family, aes(x = Sample, y = Abundance, fill = Family))+
@@ -256,6 +262,8 @@ anvi-script-reformat-fasta anvio/megahit_out_precomputed/final.contigs.fa \
 	                       --simplify-names \ # reducing descriptive names
 	                       --min-len 2000 \ # further filtering our contigs to this length
 	                       -o anvio/final.contigs.fixed.fa # our output file
+# if the above command does not work, try the following (removing comments)
+anvi-script-reformat-fasta anvio/megahit_out_precomputed/final.contigs.fa --simplify-names --min-len 2000 -o anvio/final.contigs.fixed.fa
 
 # Building our contig database 
 mkdir anvio/anvio_databases
