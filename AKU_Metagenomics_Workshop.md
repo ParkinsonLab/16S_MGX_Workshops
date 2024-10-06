@@ -300,14 +300,18 @@ bowtie2-build anvio/final.contigs.fixed.fa anvio/bowtie2_output/final.contigs.fi
 # the two parameters here are the input and the prefix and filepath for outputs
 ```
 
-Now that these bins are sorted, we can run this loop. It looks complicated but it basically performs 4 functions for each of our samples:
+Now that these bins are sorted, we are going to format them into bam files. It looks complicated but it basically performs 4 functions for each of our samples:
 1. Performs bowtie mapping to get a SAM file
 2. Turns that SAM file into a BAM file, which we want for downstream tools
 3. Sort and index that BAM file to make it easier to search
 4. Remove intermediate files
+
+This step takes quite a long time and is simply a formatting step, so we will provide the final `.bam` files at `anvio/bamfiles/`.
+
 ```bash
+# do not run!
 mkdir anvio/bam_files
-cut -f1 sample_metadata.tsv | tail -n +2 > sample_list.txt # making a file with just our sample names for the loop to parse 
+cut -f1 sample_metadata.tsv | tail -n +2 | sed 's/\"//g' > sample_list.txt # making a file with just our sample names for the loop to parse 
 
 for SAMPLE in `awk '{print $1}' sample_list.txt`
 do
@@ -332,13 +336,14 @@ do
 done
 ```
 
-To organize the information we've added to our contigs, we can make anvio profiles, then merge them into one profile for binning.
+To organize the information we've added to our contigs, we can make anvio profiles, then merge them into one profile for binning. You can run a couple of these commands, but each will take ~4 minutes, so we've again added pre-computed files. Skip to the next code block. 
 ```bash
 # Making profiles
 mkdir anvio/profiles
+cut -f1 sample_metadata.tsv | tail -n +2 | sed 's/\"//g' > sample_list.txt # making a file with just our sample names for the loop to parse 
+
 for SAMPLE in `awk '{print $1}' sample_list.txt`
 do
-
     anvi-profile -c anvio/anvio_databases/contigs.db -i anvio/bam_files/$SAMPLE.bam --num-threads 4 -o anvio/profiles/$SAMPLE
 done
 
