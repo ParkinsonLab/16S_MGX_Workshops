@@ -370,16 +370,17 @@ Remember we can read the resulting file with `cat contigs_stats.txt`. While a lo
 >How many contigs would we need to look through before getting 90% of the way through the database?
 
 ### Binning
-Finally, we can cluster our contigs into bins. Anvio uses CONCOCT for this, which takes into account both sequence composition and abundance across samples (which we get from bowtie!). This step also takes a while, so we will provide the pre-computed `PROFILE.db` at `anvio/precomputed_profiles/PROFILE.db`.
+Finally, we can cluster our contigs into bins. Anvio uses CONCOCT for this, which takes into account both sequence composition and abundance across samples (which we get from bowtie!). 
 ```bash
-# do not run!
-	anvi-cluster-contigs -c anvio/anvio_databases/contigs.db \ # contig database
-                         -p anvio/profiles/merged_profiles/PROFILE.db \ # profile
-                         -C "merged_concoct_2000" \ # name of the bins
-                         --driver CONCOCT \ # clustering tool
-                         --length-threshold 2000 \ # minimum contig length
-                         --num-threads 4 \ # number of threads
-                         --just-do-it # ignoring warnings
+anvi-cluster-contigs -c anvio/anvio_databases/contigs.db -p anvio/profiles/merged_profiles/PROFILE.db -C "merged_concoct_2000" --driver CONCOCT --length-threshold 2000 --num-threads 4 --just-do-it 
+
+# c: contig database
+# p: profile
+# C: name of the bins
+# driver: clustering tool - we are using concoct
+# length-threshold: minimum contig length
+# number of threads
+# just-do-it: ignoring warnings
 ```
 
 We want to examine the quality of these bins before moving ahead, so let's generate summaries of our CONCOCT output.
@@ -524,6 +525,7 @@ The parameters here are as follows:
 
 Now we format the result files into one that is nicer to work with.
 ```bash
+# skip past this if you did not run the previous step
 parallel -j 2 --progress 'mmseqs convertalis mmseqs_out/mmseqs-{/.}-queryDB databases/uniref/demo_uniref mmseqs_out/mmseqs-{/.}-resultDB mmseqs_out/mmseqs-{/.}-s1.m8 --db-load-mode 2' ::: cat_reads_full/*
 
 # moving them to a new folder
@@ -550,8 +552,12 @@ Column Number | Data Type
 
 Notice that some of the reads have multiple, even many UniRef hits. We just want the top hit, so we'll run a script to pick those out for us.
 ```bash
-mkdir mmseqs_m8s/top
+mkdir mmseqs_out/mmseqs_m8s/top
 python scripts/pick_uniref_top_hit.py --unirefm8Dir mmseqs_m8s --output_path mmseqs_m8s/top
+
+# if you are running from pre-computed files
+python scripts/pick_uniref_top_hit.py --unirefm8Dir mmseqs_out/mmseqs_m8s/precomputed --output_path mmseqs_out/mmseqs_m8s/top
+
 ```
 
 These new files no longer have multiple hits for each entry, and also removed the other columns. The UniRef IDs are useful in getting additional annotations as well. Let's look at one sample in particular and visualize which gene ontology (GO) terms we can find within.
