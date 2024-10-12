@@ -82,7 +82,7 @@ To obtain our ASVs, we can use deblur, which denoises our reads by removing low 
 ```bash
 qiime vsearch merge-pairs --i-demultiplexed-seqs qza_files/trimmed_chicken.qza \
                          --o-merged-sequences qza_files/trimmed_chicken_joined.qza \
-			 --o-unmerged-sequences
+			 --o-unmerged-sequences qza_files/trimmed_chicken_unmerged.qza
 
 # Summarize and visualize the joined qza file
 qiime demux summarize --i-data qza_files/trimmed_chicken_joined.qza --o-visualization qzv_files/trimmed_chicken_joined.qzv
