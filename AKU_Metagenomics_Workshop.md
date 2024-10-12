@@ -450,36 +450,7 @@ cp anvio/final_mags_summary/bin_by_bin/*MAG*/*contigs.fa MAG_fasta/
 ls MAG_fasta/
 ```
 
-And now we have our MAGs! This was a long and involved process, but this is where your workflow really opens up; you can annotate your contigs with any number of databases depending on your particular aims. We can use more HMMs, sequence search tools, or any number of methods for associating our contigs with biological meaning. The first thing we will do is use CheckM to assess quality of genomes and assign taxonomy.
-
-### Annotating Bins with Taxonomy
-We want to point CheckM to its database, which we can do with this command:
-```bash
-tar --strip-components=1 -xzvf databases/checkm/checkm_db.tar.gz
-export CHECKM_DATA_PATH=/home/mg_user/Desktop/Metagenomics_Workshop/databases/checkm
-
-# Then, we run the lineage workflow command
-checkm lineage_wf --reduced_tree -t 4 -x fa MAG_fasta MAGs-CHECKM-lineage -f MAGs-CHECKM.txt --tab_table
-```
- 
- The lineage workflow command will go through a few steps with our MAGs, producing output that records which lineages each MAG has been assigned and how that lineage was determined. The columns include:
- - genomes: the number of genomes used to identify this lineage
- - markers: the number of marker genes within a lineage used 
- - marker sets: number of marker sets (groups of markers associated with a specific lineage) within the lineage's marker set used
- - The numerical columns are used to assess redundancy, and represent the number of repeat marker genes found. Ex. an 8 under column 3 means 8 marker genes were found 3 times.
- - Completeness and redundancy
- - Strain heterogeneity, which attempts to explain where your redundancy could come from. High strain heterogeneity might suggest those additional marker gene copies come from more divergent species. Low strain heterogeneity would suggest the opposite. 
-
->Question 2.5
->
->What does a strain heterogeneity of 50 indicate?
-
-You'll also notice that many of these lineages are at quite a high level. We can run `tree_qa` to assign more specific taxonomy. 
-```bash
-checkm tree_qa MAGs-CHECKM-lineage -f MAGs-CHECKM-tax.txt --tab_table
-```
-
-We can see that a lot of these bins have acquired genus-level annotations! Not all of these MAGs are at a lower level of taxonomy. This is expected, and just indicates that there is not enough information to be more specific. This is a good stopping point for now - in our final lab, we will cover additional methods of functional annotation and explore ways of visualizing this data.
+And now we have our MAGs! This was a long and involved process, but this is where your workflow really opens up; you can annotate your contigs with any number of databases depending on your particular aims. We can use more HMMs, sequence search tools, or any number of methods for associating our contigs with biological meaning. We'll try some functional annotation tools in the next segment.
 
 ### Answers
 - **Question 2.1 - When would we want to co-assemble our contigs?**
@@ -490,18 +461,16 @@ We can see that a lot of these bins have acquired genus-level annotations! Not a
 	- Using `grep '>' anvio/gene_calls.fa | wc -l`, we see that we've found 66779 genes in our data. 
 - **Question 2.4 - How many contigs would we need to look through before getting 90% of the way through the database?**
 	- According to `contigs_stats.txt`, our L90 is 9917.
-- **Question 2.5 - What does a strain heterogeneity of 50 indicate?**
-	- A middling strain heterogenity might suggest that the contaminant marker gene copies come from a group of moderately divergent species.
-
 
 ## Lab 3 - Functional Annotation and Visualization
-Now that we have MAGs, we can move onto functional annotation! We'll be using tools to link our sequences with genes and functions, and then covering a few ways you might want to visualize this data. In your own workflow, you might want to run these tools on your contigs, but we will run them on our raw sequences as our contigs are not currently split up between samples. Before we move onto more specific databases of function, it is a good idea to start with gene annotations. We'll do this with a tool called MMSeqs2. 
+Now that we have MAGs, we can move onto functional annotation! We'll be using tools to link our sequences with genes and functions, and then covering a few ways you might want to visualize this data. In your own workflow, you might want to run these tools on your contigs, but we will run them on our raw sequences as our contigs are not currently split up between samples, and in case you do not have the output from module 2. Before we move onto more specific databases of function, it is a good idea to start with gene annotations. We'll do this with a tool called MMSeqs2. 
 
 ### MMSeqs2
 MMSeqs (Many-against-Many sequence searching) is a tool we will use to search through our reads and annotate them using the UniRef database. UniRef is a popular, well-maintained resource for protein sequences and functional information. We'll be using a smaller version of UniRef, UniClust30, which groups sequences together at 30% sequence identity. 
 
 Our first step will be to create databases for our samples.
 ```bash
+export PATH="/home/mg_user/miniconda3/pkgs/mmseqs2-15.6f452-pl5321h6a68c12_3/bin/:PATH" 
 mkdir mmseqs_out
 parallel -j 4 --progress 'mmseqs createdb {} mmseqs_out/mmseqs-{/.}-queryDB' ::: cat_reads_full/*
 
@@ -580,7 +549,7 @@ library(rrvgo)
 library(org.EcK12.eg.db)
 
 # our mmseq top hit file
-go_SRR2992927 <- read_delim("mmseqs_m8s/top/mmseqs-SRR2992927-s1.m8-parsed.txt", 
+test_sample_SRR2992927 <- read_delim("mmseqs_m8s/top/mmseqs-SRR2992927-s1.m8-parsed.txt", 
     delim = "\t", escape_double = FALSE, 
     col_names = FALSE, trim_ws = TRUE)
 # Renaming columns and making one that maps to idmapper
