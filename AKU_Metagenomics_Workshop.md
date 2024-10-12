@@ -229,11 +229,17 @@ One of the strengths of shotgun metagenomics analyses over marker gene analyses 
 ### MAG Assembly
 The first step is to arrange our reads into contigs, which are longer, contiguous segments of DNA. We'll use a tool called MEGAHIT to do this. In this tutorial, we are co-assembling our contigs, meaning the contigs will be formed from sequences from all samples rather than contigs being unique to an individual sample. While there are legitimate reasons to do this with real data, our athlete data is collected from public repositories and were taken from different people from different parts of the world. In reality, we would not want to co-assemble these reads, but for the sake of time and ease of analysis, we will do so here. 
 
+Most of this tutorial will be done on anvio, a popular platform for metagenomics assembly and binning. We will use anvio through a docker image, to keep compatibility with the rest of our tools. We simply activate the docker image and continue with command-line as usual. 
+```bash
+docker run --rm -it -v `pwd`:`pwd` -w `pwd` -p 8080:8080 meren/anvio:7
+```
+To exit this image, just type `exit`. 
+
 >Question 2.1
 >
 >When would we want to co-assemble our contigs?
 
-We'll use tmux to run megahit in the background, as it is a very time-consuming step. Depending on your RAM settings, this may slow down your virtual box! Feel free to stop if you would rather use the pre-computed files. 
+We'll use tmux to run megahit in the background, as it is a very time-consuming step. Depending on your RAM settings, this may slow down your virtual box! Feel free to stop if you would rather use the pre-computed files.  
 ```bash
 # Creating a new tmux environment
 tmux new-session -A -s anvio
@@ -372,7 +378,7 @@ Remember we can read the resulting file with `cat contigs_stats.txt`. While a lo
 ### Binning
 Finally, we can cluster our contigs into bins. Anvio uses CONCOCT for this, which takes into account both sequence composition and abundance across samples (which we get from bowtie!). 
 ```bash
-anvi-cluster-contigs -c anvio/anvio_databases/contigs.db -p anvio/profiles/merged_profiles/PROFILE.db -C "merged_concoct_2000" --driver CONCOCT --length-threshold 2000 --num-threads 4 --just-do-it 
+anvi-cluster-contigs -c anvio/anvio_databases/contigs.db -p anvio/precomputed_profiles/PROFILE.db -C "merged_concoct_2000" --driver CONCOCT --length-threshold 2000 --num-threads 4 --just-do-it 
 
 # c: contig database
 # p: profile
@@ -412,7 +418,7 @@ anvi-refine -c anvio/anvio_databases/contigs.db \
 
 With our bins formed, we want to export everything to MAGs. We'll filter our bins first, to have at least 50% completeness and at most 10% redundancy. 
 ```bash
-anvi-rename-bins -c anvio/anvio_databases/contigs.db -p anvio/profiles/merged_profiles/PROFILE.db --collection-to-read merged_concoct_2000 --collection-to-write athlete_mags --call-MAGs --min-completion-for-MAG 50 --max-redundancy-for-MAG 10 --prefix athlete_db --report-file renaming_bins.txt
+anvi-rename-bins -c anvio/anvio_databases/contigs.db -p anvio/precomputed_profiles/PROFILE.db --collection-to-read merged_concoct_2000 --collection-to-write athlete_mags --call-MAGs --min-completion-for-MAG 50 --max-redundancy-for-MAG 10 --prefix athlete_db --report-file renaming_bins.txt
 # -c contig database
 # -p profile database
 # collection-to-read: concoct bins
