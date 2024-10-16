@@ -599,13 +599,13 @@ This last function sorts our GO terms into "parent" terms based on how similar t
 >Which collection of GO terms was most common in our data?
 
 ### Using the Resistance Gene Identifier (RGI)
-The second tool we will use is the Resistance Gene Identifier, or RGI. RGI is used to find genes related to antibiotic resistance in our sequences - this can be helpful especially for clinical data. The RGI relies on CARD, the Comprehensive Antibiotic Resistance Database.
+The second tool we will use is the Resistance Gene Identifier, or RGI. RGI is used to find genes related to antibiotic resistance in our sequences - this can be helpful especially for clinical data. The RGI relies on CARD, the Comprehensive Antibiotic Resistance Database. 
 ```bash
 # First we load the database.
 rgi load --card_json databases/card/card.json --local
 
 # Then we grab the annotations from the database
-gunzip /databases/checkm/wildcard/*.gz
+gunzip /databases/card/wildcard/*.gz
 
 rgi card_annotation -i localDB/card.json > card_annotation.log 2>&1
 rgi wildcard_annotation -i databases/card/wildcard --card_json localDB/card.json -v 3.3.0 > wildcard_annotation.log 2>&1
