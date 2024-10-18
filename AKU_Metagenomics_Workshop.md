@@ -16,12 +16,22 @@ First we want to import the samples, databases, and precomputed files we will be
 - mg_databases.tar.gz
 - athlete_subsamples.tar.gz
 - precomputed_files.tar.gz
+We will unpack these files using the following line. This will take a while - try to get this done during lectures!:
+
+```bash
+for file in *.tar.gz; do tar -zxf "$file"; done
+```
+
+Also we will be activating the conda environment for these tools, like we did with qiime. Remember to re-run this command if opening a new terminal window!
+```bash
+source activate 
+```
 
 ### Processing Raw Reads
 For the metagenomics labs, we will be using a set of 8 gut microbiome samples collected from various athletes. To make this workshop run on time, we've subsampled these files. We can examine the files by checking how many reads are in each sample, and looking at the metadata associated with each sample. 
 ```bash
 cd athlete_subsamples # going into the athlete sample directory
-tar -xzvf athlete_subsamples.tar.gz # unpacking our samples
+
 ls # listing samples
 cd /home/mg_user/Desktop/Metagenomics_Workshop
 wc -l athlete_subsamples/*1.fastq # checking how many reads are in each sample; remember to divide by 4 to get the true number of reads!
@@ -44,7 +54,11 @@ Open a couple of the resulting .html files for review. Our sequences are general
 As mentioned before, these samples were taken from the stool of athletes, and will contain some human data we don't want in our final analysis. Because this step can take quite a while, we will try the command on just one pair of samples. The full set of reads after decontamination can be found at `kneaddata_out/precomputed/`. You can run the following command as is or replace it with a different pair of reads. 
 Removing contaminant human sequences using kneaddata can be done as follows:
 ```bash
-tar --strip-components=1 -xzvf databases/kneaddata/kddb.tar.gz
+# unpacking our database
+cd databases/kneaddata/
+tar -xzvf databases/kneaddata/kddb.tar.gz
+cd ../..
+
 kneaddata --input1 athlete_subsamples/SRR2992927.R2.fastq --input2 athlete_subsamples/SRR2992927.R1.fastq -o kneaddata_out -db databases/kneaddata --bypass-trim --remove-intermediate-output
 ```
 
