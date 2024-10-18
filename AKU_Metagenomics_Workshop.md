@@ -105,8 +105,7 @@ Open up RStudio, and load in a few packages we'll need for this next section.
 library(phyloseq) # organizational tools for microbiome data
 library(vegan) # computes our diversity analyses
 library(ggplot2) # R graphing package
-library(taxonomizr) 
-library(tidyverse)
+library(tidyverse) # quality of life functions
 ```
 
 Then we will set our working directory so that we can access our recent output.
