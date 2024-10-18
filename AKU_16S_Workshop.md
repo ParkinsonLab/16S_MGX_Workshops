@@ -40,7 +40,7 @@ Fastqc outputs `.html` files that can be opened and viewed on a web browser. Ope
 ### Importing into QIIME
 QIIME stores your data in a `.qza` file, which keeps track of your files as they run through each step. Before we can access QIIME, we have to activate its conda environment. 
 ```bash
-source activate qiime2-amplicon-2024.5
+source activate qiime2
 ```
 
 To create the `.qza` file, we can import our raw reads into QIIME.
