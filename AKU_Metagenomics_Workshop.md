@@ -67,7 +67,7 @@ Now we combine relevant output reads into one fastq using a perl script from Mic
 perl scripts/concat_paired_end.pl -p 4 --no_R_match -o cat_reads kneaddata_out/precomputed/*_paired_contam*.fastq
 ```
 
-Unfortunately, we can see that we have very few reads remaining. In this case we chose samples with a low number of reads for a small scale lab, and as such there might not have been as much bacterial biomass. Just for this tutorial, we will go ahead with the raw reads (not recommended for a normal experiment!).
+Try using `wc -l` to find the number of reads left in these concatenated files. Unfortunately, we can see that we have very few reads remaining in many of them. In this case we chose samples with a low number of reads for a small scale lab, and as such there might not have been as much bacterial biomass. Just for this tutorial, we will go ahead with the raw reads (not recommended for a normal experiment!).
 ```bash
 # raw reads
 perl scripts/concat_paired_end.pl -p 4 -o cat_reads_full athlete_subsamples/*.fastq
@@ -82,9 +82,9 @@ Using kraken2 to annotate these files. Try running kraken2 on one merged fastq -
 ```bash
 cd databases/kraken2/
 tar -xzvf k2_db.tar.gz
-cd /home/mg_user/Desktop/Metagenomics_Workshop
+cd ../..
 
-kraken2 --db databases/kraken2  --output kraken2_outraw/SRR2992927.kraken --report kraken2_kreport/SRR2992927.kreport --confidence 0 cat_reads_full/SRR2992927.fastq
+kraken2 --db databases/kraken2  --output kraken2_outraw/SRR2992927.kraken --report kraken2_kreport/SRR2992927.kreport --threads 4 --confidence 0 cat_reads_full/SRR2992927.fastq
 ```
 
 Using bracken to quantify our taxa from kraken2 outputs. We are also using parallel, a tool that helps us run a command with a series of different inputs. parallel is used in this case to feed bracken each kraken2 report without the need for you to type out this command for each file:
