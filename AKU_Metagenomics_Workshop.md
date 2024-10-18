@@ -4,21 +4,27 @@ We'll now begin the metagenomics portion of the tutorials! The processing of the
 
 These metagenomics sequences were publically available on the European Nucleotide Archive, and were taken from stool samples collected from athletes (you can find them [here](https://www.ebi.ac.uk/ena/browser/view/PRJNA472785) and [here](https://www.ebi.ac.uk/ena/browser/view/PRJNA305507)). These data were most recently used for [this study](https://doi.org/10.1186/s40168-023-01470-9) on how the gut microbiome can affect an athlete's physical performance. For this tutorial, 8 paired-end samples are provided.
 
-Throughout this workshop, we will run into several instances where it is not feasible to complete a step within the time alloted. We will provide pre-computed files in these cases, and we will indicate where to find them. 
+Throughout this workshop, we will run into several instances where it is not feasible to complete a step within the time alloted. We will provide pre-computed files in these cases.
 
 This workshop is adapted from the [2024 Canadian Bioinformatics Workshops Advanced Microbiome Analysis](https://bioinformaticsdotca.github.io/AMB_2024) and the [2023 Metatranscriptomics Practical Lab](https://github.com/bioinformaticsdotca/MIC_2023/blob/main/module6/metatranscriptomics_lab.md) distributed by Canadian Bioinformatics Workshops. 
 
 ## Lab 1 - Taxonomic Annotation
 Our first tutorial will cover quality control and taxonomic annotation. We are dealing with untargeted, shotgun metagenomics data now, so we'll actually find some unwanted human DNA in these files. 
 
+### Set-Up
+First we want to import the samples, databases, and precomputed files we will be using through the shared folder (refer back to the command-line tutorial to set this up). Enter the folder on your desktop labelled "Metagenomics_Workshop", and drag in the three archive files:
+- mg_databases.tar.gz
+- athlete_subsamples.tar.gz
+- precomputed_files.tar.gz
+
 ### Processing Raw Reads
-For the metagenomics labs, we will be using a set of 8 gut microbiome samples collected from various athletes. We can examine the files by checking how many reads are in each sample, and looking at the metadata associated with each sample. 
+For the metagenomics labs, we will be using a set of 8 gut microbiome samples collected from various athletes. To make this workshop run on time, we've subsampled these files. We can examine the files by checking how many reads are in each sample, and looking at the metadata associated with each sample. 
 ```bash
-cd athlete_samples # going into the athlete sample directory
-tar -xzvf athlete_samples.tar.gz # unpacking our samples
+cd athlete_subsamples # going into the athlete sample directory
+tar -xzvf athlete_subsamples.tar.gz # unpacking our samples
 ls # listing samples
 cd /home/mg_user/Desktop/Metagenomics_Workshop
-wc -l athlete_samples/*1.fastq # checking how many reads are in each sample; remember to divide by 4 to get the true number of reads!
+wc -l athlete_subsamples/*1.fastq # checking how many reads are in each sample; remember to divide by 4 to get the true number of reads!
 
 cat sample_metadata.tsv
 ```
@@ -26,7 +32,7 @@ cat sample_metadata.tsv
 Our first step will be to run fastqc, to examine the quality of these samples. We can open each fastqc report as an `.html` file (outside command-line; navigate to ` in the file explorer) using the web browser and assess our quality metrics. 
 ```bash
 mkdir fastqc_out
-fastqc -t 4 athlete_samples/*fastq -o fastqc_out
+fastqc -t 4 athlete_subsamples/*fastq -o fastqc_out
 ```
 
 Open a couple of the resulting .html files for review. Our sequences are generally of good quality!  
@@ -39,7 +45,7 @@ As mentioned before, these samples were taken from the stool of athletes, and wi
 Removing contaminant human sequences using kneaddata can be done as follows:
 ```bash
 tar --strip-components=1 -xzvf databases/kneaddata/kddb.tar.gz
-kneaddata --input1 athlete_samples/SRR2992927.R2.fastq --input2 athlete_samples/SRR2992927.R1.fastq -o kneaddata_out -db databases/kneaddata --bypass-trim --remove-intermediate-output
+kneaddata --input1 athlete_subsamples/SRR2992927.R2.fastq --input2 athlete_subsamples/SRR2992927.R1.fastq -o kneaddata_out -db databases/kneaddata --bypass-trim --remove-intermediate-output
 ```
 
 Now we combine relevant output reads into one fastq using a perl script from MicrobiomeHelper.
@@ -50,7 +56,7 @@ perl scripts/concat_paired_end.pl -p 4 --no_R_match -o cat_reads kneaddata_out/p
 Unfortunately, we can see that we have very few reads remaining. In this case we chose samples with a low number of reads for a small scale lab, and as such there might not have been as much bacterial biomass. Just for this tutorial, we will go ahead with the raw reads (not recommended for a normal experiment!).
 ```bash
 # raw reads
-perl scripts/concat_paired_end.pl -p 4 -o cat_reads_full athlete_samples/*.fastq
+perl scripts/concat_paired_end.pl -p 4 -o cat_reads_full athlete_subsamples/*.fastq
 ```
 
 >Question 1.2
@@ -243,8 +249,8 @@ We'll use tmux to run megahit in the background, as it is a very time-consuming 
 ```bash
 # Creating a new tmux environment
 tmux new-session -A -s anvio
-R1=$( ls athlete_samples/*1.fastq | tr '\n' ',' | sed 's/,$//' )
-R2=$( ls athlete_samples/*2.fastq | tr '\n' ',' | sed 's/,$//' )
+R1=$( ls athlete_subsamples/*1.fastq | tr '\n' ',' | sed 's/,$//' )
+R2=$( ls athlete_subsamples/*2.fastq | tr '\n' ',' | sed 's/,$//' )
 megahit -1 $R1 \
          -2 $R2 \
          --min-contig-len 1000 \ # minimum length of contigs
@@ -325,8 +331,8 @@ do
     # 1. do the bowtie mapping to get the SAM file:
     bowtie2 --threads 4 \
             -x anvio/bowtie2_output/final.contigs.fixed \
-            -1 "athlete_samples/"$SAMPLE".R1.fastq" \
-            -2 "athlete_samples/"$SAMPLE".R2.fastq" \
+            -1 "athlete_subsamples/"$SAMPLE".R1.fastq" \
+            -2 "athlete_subsamples/"$SAMPLE".R2.fastq" \
             --no-unal \
             -S anvio/bam_files/$SAMPLE.sam
 
@@ -634,7 +640,7 @@ parallel -j 1 'rgi main -i {} -o card_out_main/{/.} -t contig -a DIAMOND -n 4 --
 
 mkdir card_out_bwt
 parallel -j 1 --xapply 'rgi bwt --read_one {1} --read_two {2} --aligner bowtie2 --output_file card_out_bwt/{1/.}_CARD --threads 2 --local --clean' \
- ::: athlete_samples/*_1.fastq ::: athlete_samples/*_2.fastq
+ ::: athlete_subsamples/*_1.fastq ::: athlete_subsamples/*_2.fastq
 ```
 
 To visualize the `main` results:
