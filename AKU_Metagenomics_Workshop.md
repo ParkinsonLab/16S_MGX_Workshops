@@ -394,14 +394,16 @@ Remember we can read the resulting file with `cat contigs_stats.txt`. While a lo
 - Ribosomal HMMs
 - Number of genomes detected, as predicted by anvio (we have 17 bacterial genomes)
 
+As a consequence of using subsampled files, our contig stats look quite underwhelming. Let's use precomputed files from the full dataset from now on. These can be found at `anvio/precomputed`. Take a look at the contig stats for the full run and compare to the ones generated from the subsamples.
+
 >Question 2.4
 >
->How many contigs would we need to look through before getting 90% of the way through the database?
+>How many contigs (precomputed) would we need to look through before getting 90% of the way through the database?
 
 ### Binning
-Finally, we can cluster our contigs into bins. Anvio uses CONCOCT for this, which takes into account both sequence composition and abundance across samples (which we get from bowtie!). 
+Finally, we can cluster our contigs into bins. Anvio uses CONCOCT for this, which takes into account both sequence composition and abundance across samples (which we get from bowtie!). This step takes a while so let's run it on our own samples, but the downstream steps will be done with the precomputed files.
 ```bash
-anvi-cluster-contigs -c anvio/anvio_databases/contigs.db -p anvio/precomputed_profiles/PROFILE.db -C "merged_concoct_2000" --driver CONCOCT --length-threshold 2000 --num-threads 4 --just-do-it 
+anvi-cluster-contigs -c anvio/anvio_databases/contigs.db -p anvio/profiles/merged_profiles/PROFILE.db -C "merged_concoct_2000" --driver CONCOCT --length-threshold 2000 --num-threads 4 --just-do-it 
 
 # c: contig database
 # p: profile
@@ -412,24 +414,32 @@ anvi-cluster-contigs -c anvio/anvio_databases/contigs.db -p anvio/precomputed_pr
 # just-do-it: ignoring warnings
 ```
 
-We want to examine the quality of these bins before moving ahead, so let's generate summaries of our CONCOCT output.
+We want to examine the quality of these bins before moving ahead, so let's generate summaries of our precomputed CONCOCT output.
 ```bash
 mkdir anvio/concoct_summary_2000
-anvi-summarize -c anvio/anvio_databases/contigs.db -p anvio/precomputed_profiles/PROFILE.db -C "merged_concoct_2000" -o anvio/concoct_summary_2000/summary
+anvi-summarize -c anvio/precomputed/contigs.db -p anvio/precomputed/PROFILE.db -C "merged_concoct_2000" -o anvio/concoct_summary_2000/summary_precomputed
 # -c contig database
 # -p profile database
 # -C denotes bin names
+
+# Let's also generate stats for our bins
+anvi-summarize -c anvio/anvio_databases/contigs.db -p anvio/profiles/merged_profiles/PROFILE.db -C "merged_concoct_2000" -o anvio/concoct_summary_2000/summary_original
 ```
 
 To open some of these summaries, recall we can use `less`
 ```bash
-less anvio/concoct_summary_2000/summary/bins_summary.txt # overview of bin metrics
-less anvio/concoct_summary_2000/summary/bins_across_samples/abundance.txt # bin abundances over samples
+# Precomputed bins
+less anvio/concoct_summary_2000/summary_precomputed/bins_summary.txt # overview of bin metrics
+less anvio/concoct_summary_2000/summary_precomputed/bins_across_samples/abundance.txt # bin abundances over samples
+
+# Our bins
+less anvio/concoct_summary_2000/summary_original/bins_summary.txt
+less anvio/concoct_summary_2000/summary_original/bins_across_samples/abundance.txt 
 ```
 
-Bins are usually assessed by two key properties: Completeness and Redundancy. Completeness refers to how much coverage of the expected genome has been achieved in your bin. Redundancy refers to how many times we see duplicates of a gene that is expected to only occur once. You'll notice that many of these bins have 0% completeness and redundancy - this is probably a single contig that was unable to be sorted elsewhere. 
+Bins are usually assessed by two key properties: Completeness and Redundancy. Completeness refers to how much coverage of the expected genome has been achieved in your bin. Redundancy refers to how many times we see duplicates of a gene that is expected to only occur once. You'll notice that many of these bins have 0% completeness and redundancy - this is probably a single contig that was unable to be sorted elsewhere. You'll also notice our original bins are much worse than the precomputed ones! In fact, every original bin has 0% completion. One of the challenges of metagenomics is making sure your data is of sufficient quality to form bins. Otherwise you would have spent a lot of money and gone through this entire workflow only to generate unusable data. 
 
-Normally we would move onto a bin refinement step - this allows us to try multiple binning methods to find the optimal makeup of our bins, ideally improving completeness and redundancy. For the sake of time we will skip this, and use our original CONCOCT bins. But this step might look like:
+Normally we would move onto a bin refinement step - this allows us to try multiple binning methods to find the optimal makeup of our bins, ideally improving completeness and redundancy. For the sake of time we will skip this, and use our unrefined precomputed CONCOCT bins. But this step might look like:
 ```bash
 # do not run!
 anvi-refine -c anvio/anvio_databases/contigs.db \
@@ -441,7 +451,7 @@ anvi-refine -c anvio/anvio_databases/contigs.db \
 
 With our bins formed, we want to export everything to MAGs. We'll filter our bins first, to have at least 50% completeness and at most 10% redundancy. 
 ```bash
-anvi-rename-bins -c anvio/anvio_databases/contigs.db -p anvio/precomputed_profiles/PROFILE.db --collection-to-read merged_concoct_2000 --collection-to-write athlete_mags --call-MAGs --min-completion-for-MAG 50 --max-redundancy-for-MAG 10 --prefix athlete_db --report-file renaming_bins.txt
+anvi-rename-bins -c anvio/precomputed/contigs.db -p anvio/precomputed/PROFILE.db --collection-to-read merged_concoct_2000 --collection-to-write final_mags --call-MAGs --min-completion-for-MAG 50 --max-redundancy-for-MAG 10 --prefix athlete_db --report-file renaming_bins.txt
 # -c contig database
 # -p profile database
 # collection-to-read: concoct bins
@@ -457,7 +467,7 @@ You might want to implement stricter parameters for your own data if you expect 
 
 Now we'll summarize these MAGs like we did before. 
 ```bash
-anvi-summarize -c anvio/anvio_databases/contigs.db -p anvio/profiles/merged_profiles/PROFILE.db -C "athlete_mags" -o anvio/final_mags_summary
+anvi-summarize -c anvio/precomputed/contigs.db -p anvio/precomputed/PROFILE.db -C "final_mags" -o anvio/final_mags_summary
 ```
 
 And to examine the summaries:
@@ -479,11 +489,11 @@ And now we have our MAGs! This was a long and involved process, but this is wher
 - **Question 2.1 - When would we want to co-assemble our contigs?**
 	- Co-assembly is valid when your samples come from very similar sources and went through the same DNA extraction/ sequencing steps. For example, gut samples from laboratory mice. 
 - **Question 2.2 - How many contigs are in our database?** 
-	- According to the contigs DB output, we have 12,802 contigs in total. 
+	- According to the contigs DB output, we have only 100 contigs in total. This is a result of using subsampled data.
 - **Question 2.3 - How many genes did anvio identify?**
-	- Using `grep '>' anvio/gene_calls.fa | wc -l`, we see that we've found 66779 genes in our data. 
-- **Question 2.4 - How many contigs would we need to look through before getting 90% of the way through the database?**
-	- According to `contigs_stats.txt`, our L90 is 9917.
+	- Using `grep '>' anvio/gene_calls.fa | wc -l`, we see that we've found 549 genes in our data. 
+- **Question 2.4 - How many (precomputed) contigs would we need to look through before getting 90% of the way through the database?**
+	- According to the precomputed `contigs_stats.txt`, our L90 is 9917.
 
 ## Lab 3 - Functional Annotation and Visualization
 Now that we have MAGs, we can move onto functional annotation! We'll be using tools to link our sequences with genes and functions, and then covering a few ways you might want to visualize this data. In your own workflow, you might want to run these tools on your contigs, but we will run them on our raw sequences as our contigs are not currently split up between samples, and in case you do not have the output from module 2. Before we move onto more specific databases of function, it is a good idea to start with gene annotations. We'll do this with a tool called MMSeqs2. 
