@@ -615,6 +615,7 @@ ts_df$GO_Bio = temp[,2]
 Our new data frame may be minimal, but we can take all the parameters we need from it. `rrvgo` requires the GO terms, a genome annotation with which it will look at relationships between GO terms, and the abundance of the GO terms in your data. For the second parameter, we will use the *E. coli* genome annotation, as there is not a microbiome wide file we can use. 
 ```R
 # And finally put this all into a treemap as visualized by rrvgo
+# This next step will take a little while
 treemap_df = ts_df$GO_Bio %>% calculateSimMatrix(orgdb = "org.EcK12.eg.db", ont = "BP", method = "Resnik") %>%
   reduceSimMatrix(table(ts_df$GO_Bio), 
                   threshold=0.85, orgdb="org.EcK12.eg.db")
