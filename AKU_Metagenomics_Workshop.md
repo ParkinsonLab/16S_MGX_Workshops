@@ -150,6 +150,8 @@ data@tax_table@.Data[,1] %>% table() # table() is a useful function for tabulati
 bacteria@tax_table@.Data[,1] %>% table()
 ```
 
+You can use `View(bacteria@tax_table@.Data)` to look at the new tax table specifically. Replace `N` in `bacteria@tax_table@.Data[,N]` with any number from 1 to 7 to look at the different ranks. 
+
 > Question 1.3
 > 
 > How many different phyla of bacteria are in our data? 
@@ -244,7 +246,7 @@ Try to play around with different taxonomic levels and palettes! Remember to rec
 - **Question 1.4 - The ultramarathoner Shannon index is noticeably lower than its Observed index. What could this indicate for alpha diversity in our ultramarathoner samples?**
 	- Since Shannon index takes evenness into account and Observed does not, this indicates that the evenness of our ultramarathoner samples are low despite having a relatively high abundance of species. 
 - **Question 1.5 - What does the clustering of these samples by athlete tell you about your samples?**
-	- For the most part, the samples of each athlete type seem to cluster with each other, indicating that samples of each athlete type are closer to each other than other athletes. Note there is one cyclist sample that seemingly does not resemble other cyclists, and actually seems to be closer to the ultramarathoner samples.   
+	- For the most part, the samples of each athlete type seem to cluster with each other, indicating that samples of each athlete type are closer to each other than other athletes. Note there is one cyclist sample that seemingly does not resemble the other cyclist, and actually seems to be closer to the ultramarathoner samples.   
 
 ## Lab 2 - MAG Assembly and Annotation
 One of the strengths of shotgun metagenomics analyses over marker gene analyses is the ability to examine the entire genomes of your microbes. To do this, we assemble reads into metagenome assembled genomes, or MAGs. This lab will take you through this process, and provide a couple of options for annotating these MAGs so that we can look at things at a functional level. 
