@@ -112,7 +112,7 @@ library(ggplot2) # R graphing package
 library(tidyverse) # quality of life functions
 ```
 
-Then we will set our working directory so that we can access our recent output.
+Then we will set our working directory so that we can access our recent output. It is similar to cd'ing to the correct directory with command-line.
 
 ```r
 setwd("/home/mg_user/Desktop/Metagenomics_Workshop")
@@ -575,6 +575,8 @@ library(readxl)
 library(rrvgo)
 library(org.EcK12.eg.db)
 
+setwd("/home/mg_user/Desktop/Metagenomics_Workshop")
+
 # our mmseq top hit file
 test_sample_SRR2992927 <- read_delim("mmseqs_m8s/top/mmseqs-SRR2992927-s1.m8-parsed.txt", 
     delim = "\t", escape_double = FALSE, 
@@ -627,8 +629,11 @@ This last function sorts our GO terms into "parent" terms based on how similar t
 
 ### Using the Resistance Gene Identifier (RGI)
 The second tool we will use is the Resistance Gene Identifier, or RGI. RGI is used to find genes related to antibiotic resistance in our sequences - this can be helpful especially for clinical data. The RGI relies on CARD, the Comprehensive Antibiotic Resistance Database. 
+
+We'll provide the code below for how to run this tool, but we've provided the output for analysis directly in R. Skip to the R code!
 ```bash
-# First we load the database.
+# do not run
+# First we would load the database.
 rgi load --card_json databases/card/card.json --local
 
 # Then we grab the annotations from the database
@@ -654,8 +659,9 @@ rgi load \
   --kmer_size 61
 ```
 
-Now that the CARD database has been properly loaded into RGI, we can finally run the tool itself. There are two commands we're running here, `main` and `bwt`. `main` acts on a genomic level, while `bwt` analyzes metagenomics reads specifically. 
+With the CARD database properly loaded into RGI, we would then run the tool itself. There are two commands here, `main` and `bwt`. `main` acts on a genomic level, while `bwt` analyzes metagenomics reads specifically. 
 ```bash
+# do not run
 mkdir card_out_main
 parallel -j 1 'rgi main -i {} -o card_out_main/{/.} -t contig -a DIAMOND -n 4 --include_loose --local --clean' ::: MAG_fasta/*
 
@@ -664,12 +670,13 @@ parallel -j 1 --xapply 'rgi bwt --read_one {1} --read_two {2} --aligner bowtie2 
  ::: athlete_subsamples/*_1.fastq ::: athlete_subsamples/*_2.fastq
 ```
 
-To visualize the `main` results:
+To visualize the `main` results, we can call RGI to make us a heatmap. We've provided this file at `card_out/card_heatmap`. Take a look at the file to answer the next question. 
 ```bash
+# do not run
 rgi heatmap --input card_out/ --output card_heatmap
 ```
 
-The tool helpfully outputs instructions on reading this heatmap:
+The tool would have output instructions on reading this heatmap:
 >*Output file card_heatmap-12: Yellow represents a perfect hit, teal represents a strict hit, purple represents no hit.*
 
 >Question 3.2
@@ -690,7 +697,9 @@ library(tidyverse)
 library(ggplot2)
 library(readr)
 
-all_bwt <- read_csv("all_bwt.csv")
+setwd("/home/mg_user/Desktop/Metagenomics_Workshop")
+
+all_bwt <- read_csv("card_out/all_bwt.csv")
 colnames(all_bwt)[1] = "AMR_Gene" # python did not export the first column name
 
 # reading in our metadata for later
