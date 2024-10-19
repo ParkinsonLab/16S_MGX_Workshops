@@ -28,7 +28,11 @@ source activate
 ```
 
 ### Processing Raw Reads
-For the metagenomics labs, we will be using a set of 8 gut microbiome samples collected from various athletes. To make this workshop run on time, we've subsampled these files. We can examine the files by checking how many reads are in each sample, and looking at the metadata associated with each sample. 
+For the metagenomics labs, we will be using a set of 8 gut microbiome samples collected from various athletes. To make this workshop run on time, we've subsampled these files for most of the steps. Some steps we will have provided precomputed files created from the full dataset - we will indicate where. If you wanted to try this workshop with the full samples later on, you can acquire them here: 
+
+> https://compsysbio.org/MG_workshop_dep/athlete_samples.tar.gz 
+
+We can examine the files by checking how many reads are in each sample, and looking at the metadata associated with each sample. 
 ```bash
 cd athlete_subsamples # going into the athlete sample directory
 
@@ -499,8 +503,7 @@ mmseqs createindex demo_uniref tmp
 cd ../..
 ```
 
-Then we will use MMSeqs2 to look though our database. You can attempt to run this - if it takes too long or you run into issues, skip past the next step and use the pre-computed data at 
-`mmseqs_out/mmseqs_m8s/precomputed/`
+Then we will use MMSeqs2 to look though our database. 
 ```bash
 parallel -j 1 --progress 'mmseqs search mmseqs_out/mmseqs-{/.}-queryDB databases/uniref/demo_uniref mmseqs_out/mmseqs-{/.}-resultDB databases/uniref/tmp --db-load-mode 3 --threads 2 --max-seqs 25 -s 1 -a -e 1e-5' ::: cat_reads_full/*
 ```
@@ -519,7 +522,6 @@ The parameters here are as follows:
 
 Now we format the result files into one that is nicer to work with.
 ```bash
-# skip past this if you did not run the previous step
 parallel -j 2 --progress 'mmseqs convertalis mmseqs_out/mmseqs-{/.}-queryDB databases/uniref/demo_uniref mmseqs_out/mmseqs-{/.}-resultDB mmseqs_out/mmseqs-{/.}-s1.m8 --db-load-mode 2' ::: cat_reads_full/*
 
 # moving them to a new folder
@@ -546,18 +548,14 @@ Column Number | Data Type
 
 Notice that some of the reads have multiple, even many UniRef hits. We just want the top hit, so we'll run a script to pick those out for us.
 ```bash
-mkdir mmseqs_out/mmseqs_m8s/top
+mkdir mmseqs_m8s/top
 python scripts/pick_uniref_top_hit.py --unirefm8Dir mmseqs_m8s --output_path mmseqs_m8s/top
-
-# if you are running from pre-computed files
-python scripts/pick_uniref_top_hit.py --unirefm8Dir mmseqs_out/mmseqs_m8s/precomputed --output_path mmseqs_out/mmseqs_m8s/top
-
 ```
 
 These new files no longer have multiple hits for each entry, and also removed the other columns. The UniRef IDs are useful in getting additional annotations as well. Let's look at one sample in particular and visualize which gene ontology (GO) terms we can find within.
 
 ### GO Term Map
-We'll use the sample SRR2992927. We used the [UniProt ID Mapper](https://www.uniprot.org/id-mapping) to retrieve GO terms, which should act as more interesting units of function than genes. 
+We'll use the sample SRR2992927. We used the [UniProt ID Mapper](https://www.uniprot.org/id-mapping) to retrieve GO terms, which should act as more interesting units of function than genes. This was taken from the mmseqs output of the full SRR2992927 sample. 
 ```R
 library(readr)
 library(stringr)
