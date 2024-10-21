@@ -44,6 +44,12 @@ There are three components here. From left to right:
 
 Sometimes you won't have a flag or input, but you will almost always have a command. The command tells the computer what action it is to perform. The flag modifies this behaviour in a specific way (each command has its own unique flags). The input is telling the computer what to act upon. In this example, `wc` is a command that counts words. The `-l` flag is telling it to count lines rather than an individual word count. Altogther, this command is telling the computer to return the number of lines in `file.txt`. 
 
+We can try some of these commands on the 16S workshop files. Open a terminal on your desktop and type in the following:
+```bash
+tar -xzvf 16s_workshop.tar.gz 
+```
+`tar` is a command for interacting with `.tar` files, an archive file format that packages a folder into one file. That file is then compressed, hence the second `.gz` extension. The `-x` flag indicated an unpacking command (`-c` would create a `.tar.gz` file instead). `-z` indicates the addition of the `.gz` extension, `-v` provides output on what the command is doing, and `-f` specifies the file name ("16s_workshop.tar.gz"). 
+
 Try navigating to the 16S workshop folder and opening a terminal in there. Now, type `ls`. You should see a list of files and folders - `ls` is likely the command you will use the most, as it tells you what the terminal sees right now. This ties into the previous point about being in the wrong folder. If you are running a command that fails, type `ls` to make sure you can see the file. If the file is in another folder, you can type `ls folder_a/` to look at all the files and folders within `folder_a/` You can also use `..` as a shortcut for "parent directory". Typing `ls ..` shows you the files and folders of the folder one level above yours. Some important flags for `ls` are `-lh`. This lists all files with a human-readable output of size, date, and other fields. 
 
 Another command you will need to know is `cd`. This moves the terminal window to a different folder. You can use this to either enter folders you see currently (ex. `cd folder_a/`), or you can enter the "absolute path" of a folder that might take too long to navigate by relative location (ex. `cd /home/mg_user/Desktop/16S_Workshop/`). If you get confused about where you are, use `pwd` - this will give you your current folder name and all parent directories. Try navigating to the subdirectories you see with `ls` and navigating back. 
