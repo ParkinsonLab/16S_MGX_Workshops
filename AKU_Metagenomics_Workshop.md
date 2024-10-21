@@ -337,10 +337,7 @@ Now that these bins are sorted, we are going to format them into bam files. It l
 3. Sort and index that BAM file to make it easier to search
 4. Remove intermediate files
 
-This step takes quite a long time and is simply a formatting step, so we will provide the final `.bam` files at `anvio/bamfiles/`.
-
 ```bash
-# do not run!
 mkdir anvio/bam_files
 cut -f1 sample_metadata.tsv | tail -n +2 | sed 's/\"//g' > sample_list.txt # making a file with just our sample names for the loop to parse 
 
@@ -371,7 +368,6 @@ To organize the information we've added to our contigs, we can make anvio profil
 ```bash
 # Making profiles
 mkdir anvio/profiles
-cut -f1 sample_metadata.tsv | tail -n +2 | sed 's/\"//g' > sample_list.txt # making a file with just our sample names for the loop to parse 
 
 for SAMPLE in `awk '{print $1}' sample_list.txt`
 do
