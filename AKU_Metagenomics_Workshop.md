@@ -12,7 +12,7 @@ This workshop is adapted from the [2024 Canadian Bioinformatics Workshops Advanc
 Our first tutorial will cover quality control and taxonomic annotation. We are dealing with untargeted, shotgun metagenomics data now, so we'll actually find some unwanted human DNA in these files. 
 
 ### Set-Up
-First we want to import the samples, databases, and precomputed files we will be using through the shared folder (refer back to the command-line tutorial to set this up). Enter the folder on your desktop labelled "Metagenomics_Workshop", and drag in the three archive files:
+First we want to import the samples, databases, and precomputed files we will be using through a shared folder (refer back to the command-line tutorial to set this up). You will have to reinstall guest additions and pick a new folder. Enter the folder on your VM desktop labelled "Metagenomics_Workshop", and drag in the three archive files via your shared folder:
 - mg_databases.tar.gz
 - athlete_subsamples.tar.gz
 - precomputed_files.tar.gz
