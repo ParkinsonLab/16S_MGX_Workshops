@@ -5,9 +5,9 @@ We are using Oracle VirtualBox, an open source software for running VMs. If you'
 
 ## Lab 1A - Starting the virtual machine
 ### Importing and Starting
-First make sure you are running the latest version of Oracle VirtualBox (v7.1.2), which you can check at `Help > About VirtualBox`. You can import the 16S and MGX VMs by navigating to `File > Import Appliance`. Click the folder icon next to the "File" field and navigate to the virtual box. From there, you can just select `Next`, then `Finish`. Importing might take a little while!
+First make sure you are running the latest version of Oracle VirtualBox (v7.1.2), which you can check at `Help > About VirtualBox`. You can import the 16S and MGX VMs by navigating to `File > Import Appliance`. Click the folder icon next to the "File" field and navigate to the virtual box. From there, you can just select `Next`, then `Finish`.  Importing might take a little while!
 
-To open the VM, simply select `Start` at the toolbar on the top. Once the VM boots up, you will see a desktop very similar to your own! You are now within the VM environment, a computer within a computer. To close the VM, select `File > Close...` and then `Power off the machine`. Any files you have created will be saved. Keep your VM on, as we will now run a couple of additional steps to make the VM more usable. 
+To open the VM, simply select `Start` at the toolbar on the top. Under settings, make sure the base memory is set to a number appropriate for your machine. You might also have to change the network setting to `Attached to: NAT`. Once the VM boots up, you will see a desktop very similar to your own! You are now within the VM environment, a computer within a computer. To close the VM, select `File > Close...` and then `Power off the machine`. Any files you have created will be saved. Keep your VM on, as we will now run a couple of additional steps to make the VM more usable. 
 
 ### Guest Additions
 With your VM powered on, we can add Guest Additions to improve its useability. One improvement allows us to import files directly from your host computer to the VM, which you will need to import the workshop files for the MGX tutorials. 
@@ -18,13 +18,13 @@ First, navigate to `Devices > Insert Guest Additions CD image...`. You should se
 ./autorun.sh
 ```
 
-This tells the VM to run the `autorun.sh` script, which itself contains commands that will install Guest Additions to the VM (this will leave your computer unaffected!). Next, we can create a shared folder to move files into or out of the VM. In the same terminal window, type:
+This tells the VM to run the `autorun.sh` script, which itself contains commands that will install Guest Additions to the VM (this will leave your computer unaffected!). It may ask you for a password - enter `mg2024`. Next, we can create a shared folder to move files into or out of the VM. In the same terminal window, type:
 
 ```bash
 sudo adduser $USER vboxsf
 ```
 
-When the password prompt shows up, type in `mg2024` (you won't be able to see text appear but that is normal). 
+When the password prompt shows up, again type in `mg2024` (you won't be able to see text appear but that is normal). 
 
 Exit and re-start the VM to let these permissions take place. This command tells the VM to allow access to shared folders. Once the VM is back up, select `Devices > Shared Folders > Shared Folder Settings`. Click the Folder icon (with the green plus) to the right. Pick "Other" on the folder path and select a folder on your computer that you want to use to import files. You can leave the other two fields empty, and select `Auto-mount` and `Make permanent`. Now, try moving a file on your computer into the shared folder (this will appear with a hard drive icon in your file explorer sidebar) and opening it up in the VM. We're now all set to tackle command line!
 
