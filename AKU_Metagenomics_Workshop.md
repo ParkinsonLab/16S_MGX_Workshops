@@ -118,15 +118,15 @@ Then we will set our working directory so that we can access our recent output. 
 setwd("/home/mg_user/Desktop/Metagenomics_Workshop")
 ```
 
-For those of you new to R, it is a programming language that is often used by computational biologists. A lot of bioinformatics tools, including those useful for microbiome data, can be accessed here. Unlike command line, you can write out multiple lines of commands and execute them whenever you wish. Feel free to ask about anything confusing, but some of the key ideas are here:
+For those of you new to R, it is a programming language that is often used by computational biologists. A lot of bioinformatics tools, including those useful for microbiome data, can be accessed here. It is also incredibly useful for looking through and editing tabular data. Unlike command line, you can write out multiple lines of commands and execute them whenever you wish. Feel free to ask about anything confusing, but some of the key ideas are here:
 - `library()` loads packages that are not included in base R. We need to load these packages to access their commands.
 - At times you will see `x <- y` or `x = y`. Both indicate that a variable is being assigned, the syntax is interchangable.
-- You will also see the pipe (`%>%`) show up often. This is a useful bit of programming grammar that "pipelines" the output of one command into the next. 
+- You will also see the pipe (`%>%`) show up often. This is the same as the command-line pipe, `|`. It "pipelines" the output of one command into the next. 
 	- For example, `colnames(df) %>% table()` tells R to take the output of `colnames(df)` (the column names of object `df`) as input for the command `table()` (which counts the unique entries of the input). This would be the same as typing `table(colnames(df))`, but appears much more organized, and makes it easier when linking more than two commands. 
 
 We'll use phyloseq to organize our data. phyloseq comes with a function to import our newly created .biom file as a phyloseq object, with which we can do the rest of our analyses for this section. 
 ```r
-data<-import_biom("mgs.biom", header = TRUE)
+data <- import_biom("mgs.biom", header = TRUE)
 ```
 
 Check out our taxonomic annotations here.
@@ -211,14 +211,15 @@ bacteria_family = psmelt(bacteria_family)
 bacteria_family$Family %>% unique %>% length
 ```
 
-However we still have nearly 500 families in this data. Let's limit to those families that show up most often. We'll set an arbitrary threshold of 2500 counts.
+Let's limit to those families that show up most often. We'll set an arbitrary threshold of 2500 counts.
 ```r
 bacteria_family$Family[bacteria_family$Abundance < 2500] = "Other"
 ```
 
-This leaves us with 25 families. Before we move onto plotting the taxa, we'll have to make a colour palette that works with that many taxa. One way to do this is with the use of the RColorBrewer package. Here we expand a pre-set palette from RColorBrewer into a larger palette with the stated number of colours. You can check using `display.brewer.all()` for other palettes
+Before we move onto plotting the taxa, we'll have to make a colour palette that works with the number of taxa we have. One way to do this is with the use of the RColorBrewer package. Here we expand a pre-set palette from RColorBrewer into a larger palette with the stated number of colours. You can check using `display.brewer.all()` for other palettes
 ```r
-family_palette = colorRampPalette(RColorBrewer::brewer.pal(12, "Set3"))(25)
+np = length(bacteria_family$Family)
+family_palette = colorRampPalette(RColorBrewer::brewer.pal(12, "Set3"))(np)
 
 # And finally, we can visualize using ggplot
 ggplot(data=bacteria_family, aes(x = Sample, y = Abundance, fill = Family))+
@@ -385,12 +386,12 @@ anvi-display-contigs-stats --report-as-text --output-file contigs_stats.txt anvi
 
 Remember we can read the resulting file with `cat contigs_stats.txt`. While a lot of these fields are self-explanatory, there are a few that are less so:
 - L50, L75, L90: The number of contigs you would need to go through before reaching X% (ex. L50 is 50%) of your database
-- N50, N75, N90: Like above, but if your contigs were sorted by length (longest to shortest) and you wanted to know the length of the contig at X% (ex. the contig at 75% would be 3039 nts long)
+- N50, N75, N90: Like above, but if your contigs were sorted by length (longest to shortest) and you wanted to know the length of the contig at X% 
 - Bacteria_71: HMMs for 71 single-copy core bacterial genes 
 - Archaea_76: HMMs for 76 single-copy core archaeal genes 
 - Protista_83: HMMs for 83 single-copy core protist genes
 - Ribosomal HMMs
-- Number of genomes detected, as predicted by anvio (we have 17 bacterial genomes)
+- Number of genomes detected, as predicted by anvio 
 
 As a consequence of using subsampled files, our contig stats look quite underwhelming. Let's use precomputed files from the full dataset from now on. These can be found at `anvio/precomputed`. Take a look at the contig stats for the full run and compare to the ones generated from the subsamples.
 
