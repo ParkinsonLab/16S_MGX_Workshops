@@ -94,4 +94,4 @@ The last command we will go over is `grep`. `grep` looks through a file and retu
 > 
 > Answer - `grep bacteria taxonomy.txt | wc -l`
 
-That concludes the command-line tutorial! As mentioned before, this can be very overwhelming for newcomers. There will be commands not mentioned here that we use in the tutorials. Most of those are tool-specific, like `fastqc` being a command from the FASTQC toolset for sequence quality checking. Regardless, feel free to ask whenever something looks confusing!
+That concludes the command-line tutorial! As mentioned before, this can be very overwhelming for newcomers, so do not worry if you find this confusing. There will be commands not mentioned here that we use in the tutorials. Most of those are tool-specific, like `fastqc` being a command from the FASTQC toolset for sequence quality checking. Regardless, feel free to ask whenever something looks confusing!
