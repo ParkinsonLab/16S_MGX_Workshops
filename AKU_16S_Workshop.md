@@ -48,7 +48,7 @@ To create the `.qza` file, we can import our raw reads into QIIME.
 mkdir qza_files
 # This command imports our paired end fastqs qza file
 qiime tools import \
-   --type SampleData[PairedEndSequencesWithQuality] \ 
+   --type SampleData[PairedEndSequencesWithQuality] \
    --input-path chicken_samples/ \
    --output-path qza_files/raw_chicken.qza \
    --input-format CasavaOneEightSingleLanePerSampleDirFmt
@@ -65,10 +65,10 @@ Another important quality control step is to remove the adapters that were seque
 # Trim reads
 qiime cutadapt trim-paired \
    --i-demultiplexed-sequences qza_files/raw_chicken.qza \
-   --p-front-f GTGCCAGCMGCCGCGGTAA \ # adapter 1
-   --p-front-r CCGYCAATTYMTTTRAGTTT \ # adapter 2
-   --p-discard-untrimmed \ # removing the untrimmed sequences from qza
-   --p-no-indels \ # removing detected indels
+   --p-front-f GTGCCAGCMGCCGCGGTAA \# adapter 1
+   --p-front-r CCGYCAATTYMTTTRAGTTT \# adapter 2
+   --p-discard-untrimmed \# removing the untrimmed sequences from qza
+   --p-no-indels \# removing detected indels
    --o-trimmed-sequences qza_files/trimmed_chicken.qza
 
 # We are telling cutadapt to remove primers used to sequence the 16S V4-V5 region of the bacterial genome. 
