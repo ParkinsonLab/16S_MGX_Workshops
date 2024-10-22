@@ -65,11 +65,15 @@ Another important quality control step is to remove the adapters that were seque
 # Trim reads
 qiime cutadapt trim-paired \
    --i-demultiplexed-sequences qza_files/raw_chicken.qza \
-   --p-front-f GTGCCAGCMGCCGCGGTAA \# adapter 1
-   --p-front-r CCGYCAATTYMTTTRAGTTT \# adapter 2
-   --p-discard-untrimmed \# removing the untrimmed sequences from qza
-   --p-no-indels \# removing detected indels
+   --p-front-f GTGCCAGCMGCCGCGGTAA \
+   --p-front-r CCGYCAATTYMTTTRAGTTT \
+   --p-discard-untrimmed \
+   --p-no-indels \
    --o-trimmed-sequences qza_files/trimmed_chicken.qza
+# p-front-f & r - adapter 1 & 2
+# p-discard-untrimmed - removing the untrimmed sequences from qza
+# p-no-indels - removing detected indels
+# o-trimmed-sequences - output
 
 # We are telling cutadapt to remove primers used to sequence the 16S V4-V5 region of the bacterial genome. 
 
@@ -108,11 +112,14 @@ A couple of guidelines to keep in mind for your own data:
 ```bash
 # Run deblur
 qiime deblur denoise-16S --i-demultiplexed-seqs qza_files/trimmed_chicken_jf.qza \
-                         --p-trim-length 160 \ 
-                         --p-sample-stats \ # print out some stats
-                         --p-jobs-to-start 4 \ # num threads
-                         --p-min-reads 1 \ # remove features without at least this number of reads among all samples
+                         --p-trim-length 160 \
+                         --p-sample-stats \
+                         --p-jobs-to-start 4 \
+                         --p-min-reads 1 \
                          --output-dir deblur_output
+
+# p-sample-stats - print out some stats
+# p-min-reads - remove features without at least this number of reads among all samples
 ```
 
 And once again we will visualize these results!
@@ -174,9 +181,9 @@ One such visualization that can depict the makeup of your community in an intere
 mkdir tree_out
 
 #run mafft
-qiime alignment mafft --i-sequences deblur_output/representative_sequences.qza \ # input
-                      --p-n-threads 4 \ # number of threads
-                      --o-alignment tree_out/rep_seqs_aligned.qza # output
+qiime alignment mafft --i-sequences deblur_output/representative_sequences.qza \
+                      --p-n-threads 4 \
+                      --o-alignment tree_out/rep_seqs_aligned.qza
 ```
 
 Then we filter out unconserved columns or columns with many gaps.
@@ -256,7 +263,7 @@ Now we run the command
 ```bash
 qiime composition ancom --i-table deblur_output/table_pseudocount.qza \
                         --m-metadata-file metadata.tsv \
-                        --m-metadata-column treatment \ 
+                        --m-metadata-column treatment \
                         --output-dir ancom_output
 ```
 
