@@ -58,7 +58,7 @@ qiime tools import \
 mkdir qzv_files
 ```
  
- Throughout this tutorial we will also be producing visualizations of our data in the form of`.qzv` files. Both `.qza` and `qzv` files can be viewed with [QIIME2 View](https://view.qiime2.org/). We encourage you to view each output to see how your data is changing as it goes along?
+ Throughout this tutorial we will also be producing visualizations of our data in the form of`.qzv` files. Both `.qza` and `qzv` files can be viewed with [QIIME2 View](https://view.qiime2.org/). We encourage you to view each output to see how your data is changing as it goes along. Simply drag and drop the `.qzv` files into QIIME2 View.
 
 Another important quality control step is to remove the adapters that were sequenced as part of the 16S sequencing protocol. This can be done by using cutadapt. 
 ```bash
