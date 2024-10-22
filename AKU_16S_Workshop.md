@@ -140,14 +140,14 @@ You have ASVs now! Keep the output handy, as you will need to refer back to it t
 >Take a look at the `deblur_table.qzv` visualization. What is the average frequency of our ASVs?
 
 ### Identifying Taxa
-Naturally with a new set of ASVs, you might want to find out what they are! To assign taxonomy to these files, we will search with a Naive Bayes classifier traned against the GreenGenes database.
+Naturally with a new set of ASVs, you might want to find out what they are! To assign taxonomy to these files, we will search with a Naive Bayes classifier traned against the GreenGenes database. Using the shared folder, import the file "gg-13-8-99-nb-classifier_1.qza" and place it in the `16S_Workshop/databases/greengenes` folder.
 
 ```bash
 # output folder
 mkdir taxa
 
 qiime feature-classifier classify-sklearn --i-reads deblur_output/representative_sequences.qza \
-                                          --i-classifier databases/greengenes/2022.10.backbone.full-length.nb.sklearn-1.4.2.qza\
+                                          --i-classifier databases/greengenes/gg-13-8-99-nb-classifier_1.qza\
                                           --o-classification taxa/taxonomy.qza
 
 # As with all QZA files, you can export the output file to take a look at the classifications and confidence scores
