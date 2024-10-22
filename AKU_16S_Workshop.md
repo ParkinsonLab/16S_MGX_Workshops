@@ -147,7 +147,7 @@ Naturally with a new set of ASVs, you might want to find out what they are! To a
 mkdir taxa
 
 qiime feature-classifier classify-sklearn --i-reads deblur_output/representative_sequences.qza \
-                                          --i-classifier databases/greengenes/gg-13-8-99-nb-classifier.qza\
+                                          --i-classifier databases/greengenes/2022.10.backbone.full-length.nb.sklearn-1.4.2.qza\
                                           --o-classification taxa/taxonomy.qza
 
 # As with all QZA files, you can export the output file to take a look at the classifications and confidence scores
