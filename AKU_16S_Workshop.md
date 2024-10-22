@@ -222,7 +222,7 @@ qiime diversity alpha-rarefaction --i-table deblur_output/table.qza \
                                   --o-visualization qzv_files/rarefaction_curves.qzv
 ```
 
-Check out the file on the QIIME viewer. Do the samples look as expected? Try changing the metric to see whether that changes. 
+Check out the file on the QIIME viewer. Do the samples look as expected? Try changing the depth metric to see whether that changes. 
 
 >Question 3.1
 >
