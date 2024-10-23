@@ -143,6 +143,9 @@ You have ASVs now! Keep the output handy, as you will need to refer back to it t
 Naturally with a new set of ASVs, you might want to find out what they are! To assign taxonomy to these files, we will search with a Naive Bayes classifier traned against the GreenGenes database. Using the shared folder, import the file "gg-13-8-99-nb-classifier_1.qza" and place it in the `16S_Workshop/databases/greengenes` folder.
 
 ```bash
+# you can also run a wget command to download the classifier directly from QIIME
+wget -P databases/greengenes/ https://data.qiime2.org/2022.11/common/gg-13-8-99-nb-classifier.qza
+
 # output folder
 mkdir taxa
 
