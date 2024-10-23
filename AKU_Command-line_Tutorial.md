@@ -42,7 +42,7 @@ There are three components here. From left to right:
 - `-l` is a flag
 - `file.txt` is the input
 
-Sometimes you won't have a flag or input, but you will almost always have a command. The command tells the computer what action it is to perform. The flag modifies this behaviour in a specific way (each command has its own unique flags). The input is telling the computer what to act upon. In this example, `wc` is a command that counts words. The `-l` flag is telling it to count lines rather than an individual word count. Altogther, this command is telling the computer to return the number of lines in `file.txt`. 
+Sometimes you won't have a flag or input, but you will almost always have a command. The command tells the computer what action it is to perform. The flag modifies this behaviour in a specific way (each command has its own unique flags). The input is telling the computer what to act upon. In this example, `wc` is a command that counts words. The `-l` flag is telling it to count lines rather than an individual word count. Altogther, this command is telling the computer to return the number of lines in `file.txt`. You can type `man` before most of these commands to display a help page.
 
 We can try some of these commands on the 16S workshop files. Open a terminal on your desktop and type in the following:
 ```bash
@@ -94,4 +94,4 @@ The last command we will go over is `grep`. `grep` looks through a file and retu
 > 
 > Answer - `grep bacteria taxonomy.txt | wc -l`
 
-That concludes the command-line tutorial! As mentioned before, this can be very overwhelming for newcomers, so do not worry if you find this confusing. There will be commands not mentioned here that we use in the tutorials. Most of those are tool-specific, like `fastqc` being a command from the FASTQC toolset for sequence quality checking. Regardless, feel free to ask whenever something looks confusing!
+That concludes the command-line tutorial! As mentioned before, this can be very overwhelming for newcomers, so do not worry if you find this confusing. There will be commands not mentioned here that we use in the tutorials. Most of those are tool-specific, like `fastqc` being a command from the FASTQC toolset for sequence quality checking. You can use the `--h` or `--help` flag to display a help page for most of these commands! Regardless, feel free to ask whenever something looks confusing.
