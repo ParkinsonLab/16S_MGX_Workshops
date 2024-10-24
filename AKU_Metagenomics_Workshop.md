@@ -218,8 +218,7 @@ bacteria_family$Family[bacteria_family$Abundance < 2500] = "Other"
 
 Before we move onto plotting the taxa, we'll have to make a colour palette that works with the number of taxa we have. One way to do this is with the use of the RColorBrewer package. Here we expand a pre-set palette from RColorBrewer into a larger palette with the stated number of colours. You can check using `display.brewer.all()` for other palettes
 ```r
-np = length(bacteria_family$Family)
-family_palette = colorRampPalette(RColorBrewer::brewer.pal(12, "Set3"))(np)
+family_palette = colorRampPalette(RColorBrewer::brewer.pal(12, "Set3"))(6)
 
 # And finally, we can visualize using ggplot
 ggplot(data=bacteria_family, aes(x = Sample, y = Abundance, fill = Family))+
@@ -502,10 +501,11 @@ MMSeqs (Many-against-Many sequence searching) is a tool we will use to search th
 
 Our first step will be to create databases for our samples.
 ```bash
-export PATH="/home/mg_user/miniconda3/pkgs/mmseqs2-15.6f452-pl5321h6a68c12_3/bin/:PATH" 
+source activate
 mkdir mmseqs_out
 parallel -j 4 --progress 'mmseqs createdb {} mmseqs_out/mmseqs-{/.}-queryDB' ::: cat_reads_full/*
 
+wget -P databases/uniref/ https://github.com/ParkinsonLab/16S_MGX_Workshops/blob/main/demo_uniref.fasta
 cd databases/uniref
 mmseqs createdb demo_uniref.fasta demo_uniref
 mmseqs createindex demo_uniref tmp
