@@ -101,6 +101,8 @@ Exports our kraken stuff to R.
 ```bash
 # note we altered the sample names column to contain the suffix "_bracken_species"
 kraken-biom kraken2_kreport/*bracken_species.kreport -m sample_metadata_2.tsv -o mgs.biom --fmt json
+
+# alternatively, download the mgs.biom/ biom.RDS file
 ```
 
 ### Exploration of Data
@@ -505,7 +507,7 @@ source activate
 mkdir mmseqs_out
 parallel -j 4 --progress 'mmseqs createdb {} mmseqs_out/mmseqs-{/.}-queryDB' ::: cat_reads_full/*
 
-wget -P databases/uniref/ https://github.com/ParkinsonLab/16S_MGX_Workshops/blob/main/demo_uniref.fasta
+# If you do not wish to unpack the database file, you can also download the demo_uniref.fasta file. Or try downloading a different database!
 cd databases/uniref
 mmseqs createdb demo_uniref.fasta demo_uniref
 mmseqs createindex demo_uniref tmp
@@ -747,6 +749,7 @@ Then, we can import some of the metadata associated with this data.
 - Select the `mouse1_cytoscape.txt` file and click `Open`
 - Change the `Import Data as` from `shared name` to `KEGG_NODE_LABEL`
 - Click OK
+- If your nodes are all grouped together, find `Prefuse Force Directed Layout` under `Layout`
 
 To change the appearance of your network:
 - In the left `Control Panel` select the `Style` tab
